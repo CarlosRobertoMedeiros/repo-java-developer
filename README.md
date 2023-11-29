@@ -16,8 +16,8 @@ Necessário a instalação da JDK / OpenJDK(Free) de acordo com a versão do pro
 
 	- Java 21
 	- Java 17
-	- Java 8
-	- Java 8
+	- Java 11
+	- Java 8 (https://github.com/CarlosRobertoMedeiros/study-java-arch/tree/main/exceptions-consume-jvm)<br>
 
 ## 🖇️ Colaborando
 
