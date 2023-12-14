@@ -1,0 +1,447 @@
+openapi: 3.0.3
+info:
+  title: Swagger Student CRUD - OpenAPI 3.0
+  description: |-
+    This is a sample Student CRUD based on the OpenAPI 3.0 specification.
+    
+    Some useful links:
+    - [The Student CRUD repository](https://github.com/xxxxxx/xxxxxx)
+    - [The source API definition for the Student CRUD](https://github.com/swagger-api/swagger-petstore/blob/master/src/main/resources/openapi.yaml)
+  contact:
+    email: carlosmedeiroslima@gmail.com
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  version: 1.0.0
+
+servers:
+  - url: http://localhost:8080/v1
+    description: Local Server
+  - url: http://localhost:8080/v1
+    description: Developer server
+  - url: http://localhost:8080/v1
+    description: Staging server
+  - url: http://localhost:8080/v1
+    description: Production server
+
+tags:
+  - name: students
+    description: Student Manager
+    externalDocs:
+      description: Find out more
+      url: http://swagger.io
+
+paths:
+  /students:
+    post:
+      tags:
+        - students
+      summary: Add a new student
+      description: Add a new student
+      operationId: addStudent
+      parameters:
+          - name: api_key
+            in: header
+            description: Api Key
+            required: false
+            schema:
+              type: string
+          - name: cpf
+            in: header
+            description: student document brazilian identification
+            required: true
+            schema:
+              type: string
+      requestBody:
+        description: Create a new student
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/StudentRequest'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/StudentRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/StudentRequest'
+        required: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StudentResponse'          
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/StudentResponse'
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: Student not found
+        '405':
+          description: Validation exception
+        default:
+          description: Description default
+#          content:
+#            application/json:
+#              schema:
+#                $ref: '#/components/schemas/GeneralError'
+      security:
+        - petstore_auth:
+            - write:pets
+            - read:pets
+  
+    put:
+      tags:
+        - students
+      summary: Update an existing student
+      description: Update an existing student by Id
+      operationId: updateStudent
+      parameters:
+          - name: api_key
+            in: header
+            description: Api Key
+            required: false
+            schema:
+              type: string
+          - name: cpf
+            in: header
+            description: student document brazilian identification
+            required: true
+            schema:
+              type: string
+          - name: id
+            in: header
+            description: student id
+            required: true
+            schema:
+              type: string
+      requestBody:
+        description: Update an existent student
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/StudentRequest'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/StudentRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/StudentRequest'
+        required: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StudentResponse'          
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/StudentResponse'
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: Student not found
+        '405':
+          description: Validation exception
+        default:
+          description: Description default
+#          content:
+#            application/json:
+#              schema:
+#                $ref: '#/components/schemas/GeneralError'
+      security:
+        - petstore_auth:
+            - write:pets
+            - read:pets
+    
+    get:
+      tags:
+        - students
+      summary: Finds students
+      description: Multiple values can be provided with comma separated strings
+      operationId: findAll
+      parameters:
+          - name: api_key
+            in: header
+            description: Api Key
+            required: false
+            schema:
+              type: string
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/StudentResponse'          
+            application/xml:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/StudentResponse'
+        '400':
+          description: Invalid student value
+      security:
+        - petstore_auth:
+            - write:pets
+            - read:pets
+  
+  /students/{id}:
+    get:
+      tags:
+        - students
+      summary: Find student by id
+      description: Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
+      operationId: findStudentById
+      parameters:
+          - name: api_key
+            in: header
+            description: Api Key
+            required: false
+            schema:
+              type: string
+          - name: id
+            in: path
+            description: student id
+            required: true
+            schema:
+              type: string
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StudentResponse'          
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/StudentResponse'
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: Student not found
+        '405':
+          description: Validation exception
+        default:
+          description: Description default
+#          content:
+#            application/json:
+#              schema:
+#                $ref: '#/components/schemas/GeneralError'
+      security:
+        - petstore_auth:
+            - write:pets
+            - read:pets
+    delete:
+      tags:
+        - students
+      summary: Deletes a student by id
+      description: delete a student by id
+      operationId: deleteStudentById
+      parameters:
+        - name: api_key
+          in: header
+          description: ''
+          required: false
+          schema:
+            type: string
+        - name: id
+          in: path
+          description: Student id to delete
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '400':
+          description: Invalid student value
+      security:
+        - petstore_auth:
+            - write:pets
+            - read:pets
+            
+  /students/{cpf}:
+    get:
+      tags:
+        - students
+      summary: Find student by cpf
+      description: Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
+      operationId: findStudentByCpf
+      parameters:
+          - name: Authorization
+            in: header
+            description: Access token
+            required: true
+            schema:
+              type: string
+          - name: cpf
+            in: path
+            description: student cpf
+            required: true
+            schema:
+              type: string
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StudentResponse'          
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/StudentResponse'
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: Student not found
+        '405':
+          description: Validation exception
+        default:
+          description: Description default
+#          content:
+#            application/json:
+#              schema:
+#                $ref: '#/components/schemas/GeneralError'
+      security:
+        - petstore_auth:
+            - write:pets
+            - read:pets
+            
+    delete:
+      tags:
+        - students
+      summary: Deletes a student by cpf
+      description: delete a student by cpf
+      operationId: deleteStudentByCpf
+      parameters:
+        - name: api_key
+          in: header
+          description: ''
+          required: false
+          schema:
+            type: string
+        - name: cpf
+          in: path
+          description: Student cpf to delete
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '400':
+          description: Invalid student value
+      security:
+        - petstore_auth:
+            - write:pets
+            - read:pets
+
+components:
+  schemas:
+    StudentRequest:
+      required:
+        - name
+        - dateBirth
+        - fathersName
+        - mothersName
+        - gender
+        - address
+      type: object
+      properties:
+        name:
+          type: string
+          example: The student name
+        dateBirth:
+          type: string
+          example: yyyy-mm-dd
+        mothersName:
+          type: string
+          example: The student mother's name
+        fathersName:
+          type: string
+          example: The student father's name
+        gender:
+          type: string
+          enum: [MALE, FEMALE]
+        addressList:
+          type: array
+          items: 
+            $ref: '#/components/schemas/AddressRequest'
+    AddressRequest:  
+      type: object
+      properties:
+        street:
+          type: string
+          example: 437 Lytton
+        city:
+          type: string
+          example: Palo Alto
+        brasilState:
+          type: string
+          enum: [AC,AL,AP,AM,BA,CE,DF,ES,GO,MA,MT,MS,MG,PA,PB,PR,PE,PI,RJ,RN,RS,RO,RR,SC,SP,SE,TO]
+        zip:
+          type: string
+          example: '72000'
+        state:
+          type: string
+          enum: [A,I]
+      xml:
+        name: address
+        
+    StudentResponse:
+      type: object
+      properties:
+        id:
+          type: string
+          example: The student identification
+        cpf:
+          type: string
+          example: student document brazilian identification
+        name:
+          type: string
+          example: The student name
+        dateBirth:
+          type: string
+          example: yyyy-mm-dd
+        mothersName:
+          type: string
+          example: The student mother's name
+        fathersName:
+          type: string
+          example: The student father's name
+        gender:
+          type: string
+          enum: [MALE, FEMALE]
+        addressList:
+          type: array
+          items: 
+            $ref: '#/components/schemas/AddressRequest'
+
+  requestBodies:
+    Student:
+      description: Student object that needs to be added
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/StudentRequest'
+        application/xml:
+          schema:
+            $ref: '#/components/schemas/StudentRequest'
+
+  securitySchemes:
+    petstore_auth:
+      type: oauth2
+      flows:
+        implicit:
+          authorizationUrl: https://petstore3.swagger.io/oauth/authorize
+          scopes:
+            write:pets: modify pets in your account
+            read:pets: read your pets
+    api_key:
+      type: apiKey
+      name: api_key
+      in: header

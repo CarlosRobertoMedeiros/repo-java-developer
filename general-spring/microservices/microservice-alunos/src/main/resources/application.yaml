@@ -1,0 +1,11 @@
+server:
+  servlet:
+    context-path: /ms-alunos
+  port: 8080
+
+spring:
+  profiles:
+    active: local
+
+  application:
+    name: ms-alunos
