@@ -1,8 +1,8 @@
 # Java Developer
 
-  This Repository containing the source code of several projects including Oracle Java in versions 8 / 11 / 17 / 21
-  In the directory General-Spring contains source code referent in the framework (Spring, Spring Boot, Spring Cloud...)
-  In the directory General-Quarkus contains source code referent in the framework (Quarkus)
+  - This Repository containing the source code of several projects including Oracle Java in versions 8 / 11 / 17 / 21
+  - In the directory General-Spring contains source code referent in the framework (Spring, Spring Boot, Spring Cloud...)
+  - In the directory General-Quarkus contains source code referent in the framework (Quarkus)
 
 ## 🚀 Started
 
