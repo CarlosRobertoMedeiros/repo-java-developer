@@ -1,0 +1,16 @@
+server:
+  servlet:
+    context-path: /ms-students
+  port: 8080
+
+spring:
+  profiles:
+    active: local
+
+  application:
+    name: ms-students
+
+# Link: //http://localhost:8080/ms-students/swagger-ui/index.html
+springdoc:
+  api-docs:
+    path: /api-docs
