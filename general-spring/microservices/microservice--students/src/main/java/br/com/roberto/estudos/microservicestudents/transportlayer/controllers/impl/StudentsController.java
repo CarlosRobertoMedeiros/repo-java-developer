@@ -1,9 +1,13 @@
-package br.com.roberto.estudos.microservicestudents.transportlayer.controllers;
+package br.com.roberto.estudos.microservicestudents.transportlayer.controllers.impl;
 
 
-import br.com.roberto.estudos.microservicestudents.rest.openapi.api.StudentsApi;
-import br.com.roberto.estudos.microservicestudents.rest.openapi.model.StudentRequest;
-import br.com.roberto.estudos.microservicestudents.rest.openapi.model.StudentResponse;
+
+import br.com.roberto.estudos.microservicestudents.core.entities.Student;
+import br.com.roberto.estudos.microservicestudents.core.interactors.StudentsUseCase;
+import br.com.roberto.estudos.microservicestudents.transportlayer.controllers.StudentsApi;
+import br.com.roberto.estudos.microservicestudents.transportlayer.dto.StudentRequest;
+import br.com.roberto.estudos.microservicestudents.transportlayer.dto.StudentResponse;
+import br.com.roberto.estudos.microservicestudents.transportlayer.mapper.StudentMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
@@ -19,9 +23,20 @@ import java.util.List;
 public class StudentsController implements StudentsApi {
 
     private static final Logger log = LoggerFactory.getLogger(StudentsController.class);
+
+    private final StudentsUseCase studentsUseCase;
+
+    public StudentsController(StudentsUseCase studentsUseCase) {
+        this.studentsUseCase = studentsUseCase;
+    }
+
     @Override
     public ResponseEntity<StudentResponse> addStudent(String cpf, StudentRequest studentRequest, String apiKey) {
         log.info("Add Studing");
+
+        Student student1 =  StudentMapper.INSTANCE.toStudent(studentRequest);
+        log.info(student1.toString());
+
         return ResponseEntity.ok(null);
     }
 
@@ -68,11 +83,20 @@ public class StudentsController implements StudentsApi {
     }
 
     @Override
-    public ResponseEntity<StudentResponse> updateStudent(String cpf, String id, br.com.roberto.estudos.microservicestudents.rest.openapi.model.StudentRequest studentRequest, String apiKey) {
+    public ResponseEntity<StudentResponse> updateStudent(String cpf, String id, StudentRequest studentRequest, String apiKey) {
         log.info("Find Student By cpf and Id");
         return StudentsApi.super.updateStudent(cpf, id, studentRequest, apiKey);
     }
+
+
+
+
+
+
+
 }
+
+
 //Todo:
 // 1- End Rest
 // 2 - Make a MockMvc Test
