@@ -34,7 +34,7 @@ public class StudentsController implements StudentsApi {
     public ResponseEntity<StudentResponse> addStudent(String cpf, StudentRequest studentRequest, String apiKey) {
         log.info("Add Studing");
 
-        Student student1 =  StudentMapper.INSTANCE.toStudent(studentRequest);
+        Student student1 =  StudentMapper.INSTANCE.map(studentRequest);
         log.info(student1.toString());
 
         return ResponseEntity.ok(null);
