@@ -18,7 +18,7 @@ Consulte **[Implantação](#-implanta%C3%A7%C3%A3o)** para saber como implantar 
 
 | Subject                      | Link                                                                                                           |
 | ----------------------       | -------------------------------------------------------------------------------------------------------------- |
-| 01-Advanced Concepts Java 8  | [Advanced Concepts Java 8](https://github.com/CarlosRobertoMedeiros/repo-java-developer/tree/main/Java%208)    |
+| 01-Advanced Concepts Java 8  | [Advanced Concepts Java 8](https://github.com/CarlosRobertoMedeiros/repo-java-developer/tree/main/Java%208/advanced-techniques-java-8)    |
 | 02-Advanced Concepts Java 11 | [Advanced Concepts Java 11](https://github.com/CarlosRobertoMedeiros/repo-kotlin-developer-/tree/master/fundamentos/fundamentos-gerais) |
 | 03-Advanced Concepts Java 17 | [Advanced Concepts Java 17](https://github.com/CarlosRobertoMedeiros/repo-kotlin-developer-/tree/master/fundamentos/fundamentos-gerais) |
 | 04-Advanced Concepts Java 21 | [Advanced Concepts Java 21](https://github.com/CarlosRobertoMedeiros/repo-kotlin-developer-/tree/master/fundamentos/fundamentos-gerais) |
