@@ -15,7 +15,7 @@ Consulte **[Implantação](#-implanta%C3%A7%C3%A3o)** para saber como implantar 
 ### 🔧 Links para as versões do Projeto
 
 	- Subjects:
-	  Section 1: **[Lambda](https://github.com/CarlosRobertoMedeiros/repo-java-developer/tree/main/Java%208/advanced-techniques-java-8/src/main/java/br/com/roberto/advancedtechniquesjava8/a/lambda)**
+	  Section 1: - [Lambda](https://github.com/CarlosRobertoMedeiros/repo-java-developer/tree/main/Java%208/advanced-techniques-java-8/src/main/java/br/com/roberto/advancedtechniquesjava8/a/lambda)
 		Introduction
         a/BasicLambda
             Implements Functional interface before Java 8
@@ -73,7 +73,7 @@ Consulte **[Implantação](#-implanta%C3%A7%C3%A3o)** para saber como implantar 
                     BiFunction<T,U,R>     R apply(T t, U u)
                     
 	  
-	  Section 2: **[Streams](https://github.com/CarlosRobertoMedeiros/repo-java-developer/tree/main/Java%208/advanced-techniques-java-8/src/main/java/br/com/roberto/advancedtechniquesjava8/b/streams)**
+	  Section 2: - [Streams](https://github.com/CarlosRobertoMedeiros/repo-java-developer/tree/main/Java%208/advanced-techniques-java-8/src/main/java/br/com/roberto/advancedtechniquesjava8/b/streams)
 		a/Initial Example
 		b/Stream Laziness
 		c/Creating Streams
