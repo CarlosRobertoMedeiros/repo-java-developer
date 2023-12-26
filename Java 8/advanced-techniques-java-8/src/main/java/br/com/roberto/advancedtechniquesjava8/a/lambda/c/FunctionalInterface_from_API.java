@@ -1,4 +1,4 @@
-package br.com.roberto.advancedtechniquesjava8.lambda.c;
+package br.com.roberto.advancedtechniquesjava8.a.lambda.c;
 
 import java.time.LocalTime;
 import java.util.Arrays;

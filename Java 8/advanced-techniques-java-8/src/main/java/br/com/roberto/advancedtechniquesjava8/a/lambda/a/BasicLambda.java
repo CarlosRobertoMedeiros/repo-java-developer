@@ -1,4 +1,4 @@
-package br.com.roberto.advancedtechniquesjava8.lambda.a;
+package br.com.roberto.advancedtechniquesjava8.a.lambda.a;
 
 interface I {
     void m(); //a functional interface has only one method abstract

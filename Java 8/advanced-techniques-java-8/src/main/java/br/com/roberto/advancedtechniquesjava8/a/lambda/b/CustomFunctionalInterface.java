@@ -1,4 +1,4 @@
-package br.com.roberto.advancedtechniquesjava8.lambda.b;
+package br.com.roberto.advancedtechniquesjava8.a.lambda.b;
 
 import java.util.function.Predicate;
 

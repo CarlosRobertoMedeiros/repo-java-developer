@@ -1,4 +1,4 @@
-package br.com.roberto.advancedtechniquesjava8.lambda.d;
+package br.com.roberto.advancedtechniquesjava8.a.lambda.d;
 
 import java.util.ArrayList;
 import java.util.Iterator;

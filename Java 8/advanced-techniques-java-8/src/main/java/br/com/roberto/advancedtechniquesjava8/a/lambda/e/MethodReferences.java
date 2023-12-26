@@ -1,4 +1,4 @@
-package br.com.roberto.advancedtechniquesjava8.lambda.e;
+package br.com.roberto.advancedtechniquesjava8.a.lambda.e;
 
 import java.util.ArrayList;
 import java.util.Arrays;

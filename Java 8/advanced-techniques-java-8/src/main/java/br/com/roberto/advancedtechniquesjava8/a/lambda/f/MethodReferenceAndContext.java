@@ -1,4 +1,4 @@
-package br.com.roberto.advancedtechniquesjava8.lambda.f;
+package br.com.roberto.advancedtechniquesjava8.a.lambda.f;
 
 import java.util.function.BiFunction;
 import java.util.function.Function;

@@ -74,6 +74,27 @@ Necessário a instalação da JDK / OpenJDK(Free) de acordo com a versão do pro
                     
 	  
 	  Section 2: Streams
+		a) Initial Example
+		b) Stream Laziness
+		c) Creating Streams
+					Creating Array Streams
+					Creating a Stream from a Collection
+					Creating a Stream from a Collection example 2
+					Creating a Stream With Stream.of()
+					Creating a Stream from File
+					Creating Infinity Stream
+					Creating Infinity Stream example 2
+		d) Terminal Operators
+					Example Using Count() Min() and Max()
+					Example Using FindAny() and FindFirst()
+					Example Using AnyMatch(), AllMatch() and NoneMatch()
+					Example Using forEach()
+					Example Using reduce()
+					Example Using BinaryOperator
+					Example Using Function With Reduce()
+					
+					
+					
 		
 		
 		
