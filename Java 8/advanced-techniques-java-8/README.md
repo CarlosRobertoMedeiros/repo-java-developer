@@ -1,21 +1,21 @@
 # Java Developer
 
-Repositorio contendo código fonte referente a assuntos avançados de Java 8 
+- This Repository containing the source code of advanced subjects about Java versions 8 / 11 / 17 / 21
 
-## 🚀 Começando
+## 🚀 Started
 
-Essas instruções permitirão que você obtenha uma cópia do projeto em operação na sua máquina local para fins de desenvolvimento e teste.
+These instructions will allow you to get a copy of the project running on your local machine for development and testing purposes.
 
 Consulte **[Implantação](#-implanta%C3%A7%C3%A3o)** para saber como implantar o projeto.
 
-### 📋 Pré-requisitos
+### 📋 Pre Requirements
 
-Necessário a instalação da JDK / OpenJDK(Free) de acordo com a versão do projeto 
+  It is necessary instalation of JDK / OpenJDK(Free) acording with specific subjects 
 
 ### 🔧 Links para as versões do Projeto
 
-	- Assuntos:
-	  Section 1: Lambda 
+	- Subjects:
+	  Section 1: Lambda [Lambda](https://github.com/CarlosRobertoMedeiros/repo-java-developer/tree/main/Java%208/advanced-techniques-java-8/src/main/java/br/com/roberto/advancedtechniquesjava8/a/lambda)
 		Introduction
         a/BasicLambda
             Implements Functional interface before Java 8
@@ -73,10 +73,10 @@ Necessário a instalação da JDK / OpenJDK(Free) de acordo com a versão do pro
                     BiFunction<T,U,R>     R apply(T t, U u)
                     
 	  
-	  Section 2: Streams
-		a) Initial Example
-		b) Stream Laziness
-		c) Creating Streams
+	  Section 2: Streams [Streams](https://github.com/CarlosRobertoMedeiros/repo-java-developer/tree/main/Java%208/advanced-techniques-java-8/src/main/java/br/com/roberto/advancedtechniquesjava8/b/streams)
+		a/Initial Example
+		b/Stream Laziness
+		c/Creating Streams
                     Creating Array Streams
                     Creating a Stream from a Collection
                     Creating a Stream from a Collection example 2
@@ -84,7 +84,7 @@ Necessário a instalação da JDK / OpenJDK(Free) de acordo com a versão do pro
                     Creating a Stream from File
                     Creating Infinity Stream
                     Creating Infinity Stream example 2
-		d) Terminal Operators
+		d/Terminal Operators
                     Example Using Count() Min() and Max()
                     Example Using FindAny() and FindFirst()
                     Example Using AnyMatch(), AllMatch() and NoneMatch()
@@ -94,26 +94,25 @@ Necessário a instalação da JDK / OpenJDK(Free) de acordo com a versão do pro
                     Example Using Function With Reduce()
 
 
-## 🖇️ Colaborando
+## 🖇️ Collaboration
 
-Por favor, leia o [COLABORACAO.md](https://gist.github.com/usuario/linkParaInfoSobreContribuicoes) para obter detalhes sobre o nosso código de conduta e o processo para nos enviar pedidos de solicitação.
+  Under constructor
 
-## 📌 Versão
+## 📌 Version Control Structure
 
-Nós usamos [SemVer](http://semver.org/) para controle de versão. Para as versões disponíveis, observe as [tags neste repositório](https://github.com/suas/tags/do/projeto). 
+We using [SemVer](http://semver.org/) for version control
 
-## ✒️ Autores
+## ✒️ Author
 
-* **Carlos Roberto - dev ** - *Trabalho e Documentação*
+* **Carlos Roberto - dev ** - *Work and Documentation*
 
 
-## 📄 Licença
+## 📄 Licence
 
-Este projeto está sob a licença (sua licença) - veja o arquivo [LICENSE.md](https://github.com/usuario/projeto/licenca) para detalhes.
+   All theses projects are for study only.
 
-## 🎁 Expressões de gratidão
+## 🎁 Gratitude
 
-* Obrigado Deus pela execução do projeto;
-
+* Thank you God for give-me the oportunity to improve my habilities in software development;
 ---
-⌨️ com ❤️ por [Carlos Roberto] 😊
+⌨️ With ❤️ por [Carlos Roberto] 😊
