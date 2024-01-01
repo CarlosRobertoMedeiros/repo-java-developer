@@ -92,6 +92,15 @@ Consulte **[Implantação](#-implanta%C3%A7%C3%A3o)** para saber como implantar 
                     Example Using reduce()
                     Example Using BinaryOperator
                     Example Using Function With Reduce()
+					Example Using Terminal Operations - Collect()
+					Example Using Terminal Operations - Collect() - Collectors.toMap()
+					Example Using Terminal Operations - Collect() - Collectors.groupingBy()
+					Example Using Terminal Operations - Collect() - Collectors.partitioningBy()
+        e/Intermediate Operators
+		             
+					
+					
+					
 
 
 ## 🖇️ Collaboration
