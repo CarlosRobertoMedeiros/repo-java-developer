@@ -1,5 +1,8 @@
 package br.com.roberto.advancedtechniquesjava8.b.streams.e;
 
+import java.util.Arrays;
+import java.util.Comparator;
+import java.util.List;
 import java.util.stream.Stream;
 
 public class IntermediateOperations {
@@ -16,7 +19,10 @@ public class IntermediateOperations {
         ExampleFilter();
         ExampleDistinct();
         ExampleLimit();
-        ExampleMapflatMapSorted();
+        ExampleMap();
+        ExampleFlatMap();
+        ExampleSorted();
+        ExampleSortedDetailed();
     }
 
     public static void ExampleFilter(){
@@ -81,7 +87,101 @@ public class IntermediateOperations {
                 .forEach(n -> System.out.print(" C - "+n));
     }
 
-    public static void ExampleMapflatMapSorted(){
+    public static void ExampleMap(){
+        /**
+         * map() creates a one-to-one mapping between elements in
+         * the stream and elements in the nex stage of stream.
+         *
+         * map() is for transforming data.
+         *
+         * <R> Stream<R> map(Function<T,R> mapper)
+         *      Function's functional method: R apply(T t)
+         * */
+        System.out.println();
+        System.out.println("Example Using Map");
+        Stream.of("book","pen","ruler")
+                .map(s -> s.length())
+                .forEach(System.out::print); //435
+    }
 
+    public static void ExampleFlatMap(){
+        /*
+        * flatMap() take each element in the stream
+        * e.g Stream<List<String>> and makes any elements it contains
+        * top-level elements in a single stream e.g. Stream<String>
+        */
+        System.out.println("Example Using FlatMap");
+        List<String> list1 = Arrays.asList("sean","desmond");
+        List<String> list2 = Arrays.asList("mary","ann");
+        Stream<List<String>> listStream = Stream.of(list1,list2);
+
+        //flatMap(Function(T,R)) IN:T OUT:R
+        //flatMap(List<String>, Stream<String>)
+        listStream.flatMap(list -> list.stream())
+                .forEach(System.out::print); //seandesmondmaryann
+    }
+
+    public static void ExampleSorted(){
+        /*
+        *  sorted() returns a stream with the elements sorted.
+        *
+        *  Just like sorting arrays, Java uses natural ordening unless we provide
+        * a comparator
+        *
+        * sorted() is a statefull intemediate operation; it needs to see all of
+        * the data before it can sort it
+        */
+        System.out.println("Example Using Sorted");
+        Person john = new Person("John","23");
+        Person mary = new Person("Mary","25");
+        Stream.of(mary,john)
+                //.sorted(Comparator.comparing(Person::getAge))
+                .sorted(Comparator.comparing(p -> p.getAge()))
+                .forEach(System.out::print); //Person{name='John', age='23'}Person{name='Mary', age='25'}
+    }
+
+    public static void ExampleSortedDetailed(){
+        /**
+         *  Stream<T> sorted()
+         *  Stream<T> sorted(Comparator<T> comparator)
+         *  Output: 0.Tim 1.Tim 0.Jim 1.Jim 0.Peter 0.Ann 1.Ann 0.Mary 2.Ann 3.Ann 2.Jim 3.Jim
+         *
+         * */
+        System.out.println("Example Using Sorted Detailed");
+        Stream.of("Tim","Jim","Peter","Ann","Mary")
+                .peek(name -> System.out.print(" 0."+name)) //"Tim","Jim","Peter","Ann","Mary"
+                .filter(name -> name.length() == 3)
+                .peek(name -> System.out.print(" 1."+name)) //"Tim","Jim","Ann"
+                .sorted() //"Tim","Jim","Ann" (Stored)
+                .peek(name -> System.out.print(" 2."+name)) //Ann,Jim
+                .limit(2)
+                .forEach(name -> System.out.print(" 3."+name));//Ann,Jim
+    }
+
+
+}
+class Person{
+    private String name;
+    private String age;
+
+    public Person(String name, String age) {
+        this.name = name;
+        this.age = age;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getAge() {
+        return age;
+    }
+
+    @Override
+    public String toString() {
+        return "Person{" +
+                "name='" + name + '\'' +
+                ", age='" + age + '\'' +
+                '}';
     }
 }
