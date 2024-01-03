@@ -3,30 +3,25 @@ package br.com.roberto.advancedtechniquesjava8.b.streams.e;
 import java.util.Arrays;
 import java.util.OptionalDouble;
 import java.util.OptionalInt;
+import java.util.function.DoubleSupplier;
 import java.util.stream.DoubleStream;
 import java.util.stream.IntStream;
 import java.util.stream.LongStream;
 import java.util.stream.Stream;
 
-public class IntermediateOperationsPrimitiveStream {
+public class IntermediateOperationsPrimitiveStreamFunctionalInterfaces {
     /**
-     * Primitive Streams
+     * Functional Interfaces for primitive Streams
      *
-     * As opposed to Stream<T> e.g Stream<Integer>, Stream<Double> and
-     * Stream<Long>, java actually provides other stream classes that can use to
-     * work with primitives:
-     *   IntStream    - for primitive types int,short,byte and char
-     *   DoubleStream - for primitive types double and float
-     *   LongStream   - for primitive type long
+     * Veja o arquivo no diretorio:
+     *      advanced-techniques-java-8\src\images\00-Interfaces Funcionais - StreamApi vs PrimitiveStream.JPG
      *
-     *   IntStream        Stream<Integer>
-     *   DoubleStream     Stream<Double>
-     *   LongStream       Stream<Long>
      **/
     public static void main(String[] args) {
         creatingPrimitiveStreams();
         primitiveStreamsExampleMinMaxSumAverage();
         commonPrimitiveStreamsMethods();
+
     }
 
     public static void creatingPrimitiveStreams(){
