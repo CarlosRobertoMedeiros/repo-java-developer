@@ -97,6 +97,22 @@ Consulte **[Implantação](#-implanta%C3%A7%C3%A3o)** para saber como implantar 
 					Example Using Terminal Operations - Collect() - Collectors.groupingBy()
 					Example Using Terminal Operations - Collect() - Collectors.partitioningBy()
         e/Intermediate Operators
+                    Example Using Intermediate Operations - filter() distinct() and limit()
+                    Example Using Intermediate Operations - map(), flatMap(), sorted()
+                    Example Using Primitive Streams - Creating
+                    Example Using Primitive Streams - API
+                    Primitive Streams - Functional Interfaces
+                    Primitive Streams - Mapping Streams
+                    Optional
+                    Parallel Streams
+
+
+      [Section 3:Collections and Generics]
+		a/CommonCollectionMethod
+                    Example Using Common Collection Method
+
+
+
 		             
 					
 					

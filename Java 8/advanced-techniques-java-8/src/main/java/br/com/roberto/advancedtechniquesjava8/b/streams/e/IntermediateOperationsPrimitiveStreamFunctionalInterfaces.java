@@ -3,7 +3,6 @@ package br.com.roberto.advancedtechniquesjava8.b.streams.e;
 import java.util.Arrays;
 import java.util.OptionalDouble;
 import java.util.OptionalInt;
-import java.util.function.DoubleSupplier;
 import java.util.stream.DoubleStream;
 import java.util.stream.IntStream;
 import java.util.stream.LongStream;
@@ -14,13 +13,15 @@ public class IntermediateOperationsPrimitiveStreamFunctionalInterfaces {
      * Functional Interfaces for primitive Streams
      *
      * Veja o arquivo no diretorio:
-     *      advanced-techniques-java-8\src\images\00-Interfaces Funcionais - StreamApi vs PrimitiveStream.JPG
+     *      advanced-techniques-java-8\src\images\00-Interfaces Funcionais - StreamApi vs PrimitiveStream.jpg
      *
      **/
     public static void main(String[] args) {
         creatingPrimitiveStreams();
         primitiveStreamsExampleMinMaxSumAverage();
         commonPrimitiveStreamsMethods();
+        mappingObjectStreams();
+        mappingPrimitiveStreams();
 
     }
 
@@ -113,6 +114,82 @@ public class IntermediateOperationsPrimitiveStreamFunctionalInterfaces {
         OptionalDouble average = LongStream.of(10L,20L,30L)
                 .average(); //Terminal Operation
         System.out.println(average.orElseGet(() -> Math.random())); //20
+    }
+
+    public static void mappingObjectStreams(){
+        /*
+        * Veja o arquivo no diretorio:
+        * advanced-techniques-java-8\src\images\01-MappingStreams.JPG
+        * */
+        //Stream<T> to Stream<T>
+        System.out.println("Example Using Map");
+        Stream.of("ash","beech","sycamore")
+                // map(Function)
+                //     Function<T,R> => Function<String,String>
+                //        String apply(String s)
+                .map(tree -> tree.toUpperCase())
+                .forEach(System.out::println);//ASH,BEECH,SYCAMORE
+
+        System.out.println("Example Using MapToDouble");
+        //Stream<T> to DoubleStream
+        DoubleStream doubleStream = Stream.of("ash","beech","sycamore")
+                // DoubleStream mapToDouble(ToDoubleFunction mapper);
+                //    double applyAsDouble(T value);
+                .mapToDouble(tree -> tree.length()); //upcast in backgroud
+        doubleStream.forEach(System.out::println);// 3.0, 5.0, 8.0
+
+        System.out.println("Example Using MapToInt");
+        //Stream<T> to IntStream
+        IntStream intStream = Stream.of("ash","beech","sycamore")
+                // IntStream mapToInt(ToIntFunction<? super T> mapper);
+                //       int applyAsInt(T value) => int applyAsInt(String value)
+                .mapToInt(tree -> tree.length());
+        intStream.forEach(System.out::println);// 3, 5, 8)
+
+
+        System.out.println("Example Using MapToLong");
+        //Stream<T> to LongStream
+        LongStream longStream = Stream.of("ash","beech","sycamore")
+                // LongStream mapToLong(ToLongFunction<? super T> mapper);
+                //       int applyAsInt(T value) => int applyAsInt(String value)
+                //            long applyAsLong(T value);
+                .mapToLong(tree -> tree.length());
+        longStream.forEach(System.out::println);// 3, 5, 8)
+    }
+
+    public static void mappingPrimitiveStreams(){
+
+        System.out.println("Example Using MapToObject");
+        // IntStream to Stream<T>
+        Stream<String> streamAges = IntStream.of(1,2,3)
+                // <U> Stream<U> mapToObj(IntFunction<? extends U> mapper);
+                //     R apply(int value);
+                .mapToObj(n -> "Number: "+n);
+                // void forEach(Consumer<? super T> action);
+                //      void accept(T t);
+        streamAges.forEach(System.out::println); //Number: 1,Number: 2,Number: 3
+
+        System.out.println("Example Using MapToDouble");
+        // IntStream to DoubleStream
+        DoubleStream doubleStream = IntStream.of(1,2,3) //must open stream again as it is closed!
+                .mapToDouble(n -> Double.valueOf(n)); //Cast Not necessary Unboxing Outboxing
+        doubleStream.forEach(System.out::println); //1.0,2.0,3.0
+
+        System.out.println("Example Using IntStream to IntStream");
+        // IntStream to IntStream
+        IntStream intStream = IntStream.of(1,2,3) //must open stream again as it is closed!
+                .map(n -> n * 2); //Cast Not necessary Unboxing Outboxing
+        intStream.forEach(System.out::println); //2,4,6
+
+        System.out.println("Example Using IntStream to LongStream");
+        // IntStream to LongStream
+        IntStream.of(1,2,3) //must open stream again as it is closed!
+                .mapToLong(n -> (long) n) //Cast Not necessary Unboxing Outboxing
+                .forEach(System.out::println); //1,2,3
+
+
+
+
 
     }
 
