@@ -46,13 +46,6 @@ public class CommonCollectionMethod {
         col1.forEach(name -> System.out.println(name)); //[Lucy]
         col1.clear();
         col1.forEach(System.out::println); //nothing output
-
-
-
-
-
-
-
     }
 
 }

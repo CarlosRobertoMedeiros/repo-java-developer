@@ -110,7 +110,10 @@ Consulte **[Implantação](#-implanta%C3%A7%C3%A3o)** para saber como implantar 
       [Section 3:Collections and Generics]
 		a/CommonCollectionMethod
                     Example Using Common Collection Method
-    
+                    Example Using List ArrayList LinkedList double-linked (Lista buplamente encadeada) and Stack
+                    Example Using Set TreeSet(Sorted), HashSet(hashing unordered) and LinkedHashSet(hashing, insertion order)
+                    Example Using Map  LinkedHashMap, TreeMap, HashTable 
+
 
 
 		             
