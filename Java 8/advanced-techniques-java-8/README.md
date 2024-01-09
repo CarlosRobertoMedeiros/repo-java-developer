@@ -112,7 +112,12 @@ Consulte **[Implantação](#-implanta%C3%A7%C3%A3o)** para saber como implantar 
                     Example Using Common Collection Method
                     Example Using List ArrayList LinkedList double-linked (Lista buplamente encadeada) and Stack
                     Example Using Set TreeSet(Sorted), HashSet(hashing unordered) and LinkedHashSet(hashing, insertion order)
-                    Example Using Map  LinkedHashMap, TreeMap, HashTable 
+                    Example Using Map  LinkedHashMap, TreeMap, HashTable
+                    Example Using Queue LinkedList ArrayDeque and PriorityQueue(Natural Order and Different Order)
+                    Example Using CollectionSorting Comparable<T> and Comparator<T> interfaces( java.lang.Comparable and java.util.Comparator)
+                    Example Implementing Sorting(Comparable,Comparator) and BinarySearch(Comparator)
+
+
 
 
 
