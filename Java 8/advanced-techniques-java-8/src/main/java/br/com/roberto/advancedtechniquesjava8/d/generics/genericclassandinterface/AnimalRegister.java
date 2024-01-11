@@ -3,7 +3,7 @@ package br.com.roberto.advancedtechniquesjava8.d.generics.genericclassandinterfa
 import br.com.roberto.advancedtechniquesjava8.d.generics.Cat;
 import br.com.roberto.advancedtechniquesjava8.d.generics.Dog;
 
-public class Register<T, U, V>{
+class Register<T, U, V>{
     private T type;
     private U name;
     private V age;

@@ -1,10 +1,10 @@
 package br.com.roberto.advancedtechniquesjava8.d.generics;
 
-import br.com.roberto.advancedtechniquesjava8.d.generics.genericclassandinterface.MyGeneric;
-import br.com.roberto.advancedtechniquesjava8.d.generics.genericclassandinterface.Register;
+//import br.com.roberto.advancedtechniquesjava8.d.generics.genericclassandinterface.MyGeneric;
+//import br.com.roberto.advancedtechniquesjava8.d.generics.genericclassandinterface.Register;
 
 public class GenericMethods {
-    public static <T> void genericMethod(T t){
+    /*public static <T> void genericMethod(T t){
         MyGeneric<T> myGen = new MyGeneric<>(t);
         System.out.println(myGen.getT());
     }
@@ -25,5 +25,5 @@ public class GenericMethods {
 
         MyGeneric<Integer> myGenI = createGeneric(4);
         System.out.println(myGenI.getT());  // 4
-    }
+    }*/
 }

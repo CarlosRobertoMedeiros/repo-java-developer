@@ -1,6 +1,6 @@
 package br.com.roberto.advancedtechniquesjava8.d.generics.genericclassandinterface;
 
-public class MyGeneric<T>{
+class MyGeneric<T>{
     T instance;
     MyGeneric(T instance){
         this.instance=instance;
