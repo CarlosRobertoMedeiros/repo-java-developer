@@ -1,4 +1,4 @@
-package br.com.roberto.advancedtechniquesjava8.e.threads.creatingthreads;
+package br.com.roberto.advancedtechniquesjava8.e.threads.creatingthreads.a;
 
 /*
  *   Creating Threads
@@ -13,7 +13,7 @@ public class CreateThreadsExtendThread extends Thread {
     }
 
     public static void main(String[] args) {
-        new Thread().start();
+        new CreateThreadsExtendThread().start();
         System.out.println("main(): "+Thread.currentThread().getName());
     }
 }
