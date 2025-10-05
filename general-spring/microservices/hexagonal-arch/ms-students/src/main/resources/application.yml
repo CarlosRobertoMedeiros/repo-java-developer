@@ -1,0 +1,11 @@
+server:
+  port: 8080
+  servlet:
+    context-path: /ms-students/api/
+
+spring:
+  application:
+    name: ms-students
+
+  profiles:
+    active: local

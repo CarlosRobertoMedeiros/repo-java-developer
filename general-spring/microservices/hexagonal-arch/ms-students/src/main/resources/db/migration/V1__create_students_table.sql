@@ -1,0 +1,7 @@
+CREATE TABLE Tbl_Students (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    cpf VARCHAR(20) NOT NULL UNIQUE,
+    name VARCHAR(255) NOT NULL,
+    email VARCHAR(255) NOT NULL,
+    birth_date DATE NOT NULL
+);

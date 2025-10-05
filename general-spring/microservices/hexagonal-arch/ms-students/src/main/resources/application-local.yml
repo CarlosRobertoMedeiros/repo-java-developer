@@ -1,0 +1,31 @@
+spring:
+  config:
+    activate:
+      on-profile: local
+  datasource:
+    url: jdbc:h2:mem:studentsdb;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
+    username: sa
+    password:
+    driver-class-name: org.h2.Driver
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    show-sql: true
+    properties:
+      hibernate.format_sql: true
+
+  #Console do H2: http://localhost:8080/{context-path}}h2-console
+  #Sample http://localhost:8080/ms-students/api/h2-console/
+  #JDBC URL: jdbc:h2:mem:studentsdb
+  #User: sa
+  #Password: vazio
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
+
+# Flyway
+flyway:
+  enabled: true
+  locations: classpath:db/migration
+
