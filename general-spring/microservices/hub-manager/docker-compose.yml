@@ -1,0 +1,27 @@
+services:
+  postgres:
+    image: postgres:16
+    container_name: hub-manager-postgres
+    restart: unless-stopped
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_DB: db_hub_manager_app
+      POSTGRES_USER: hub_manager_app
+      POSTGRES_PASSWORD: 123456
+    volumes:
+      - postgres_hub_manager_data:/var/lib/postgresql/data
+    networks:
+      - stack-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U hub_manager_app -d db_hub_manager_app"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+networks:
+  stack-network:
+    driver: bridge
+
+volumes:
+  postgres_hub_manager_data:

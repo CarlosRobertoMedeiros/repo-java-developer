@@ -1,0 +1,37 @@
+management:
+  server:
+    port: 8081
+  endpoints:
+    web:
+      base-path: /manage
+      exposure:
+        include: health,metrics
+
+spring:
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5432/db_hub_manager_app
+    username: hub_manager_app
+    password: 123456
+    initialization-mode: always
+    hikari:
+      pool-name: hub-manager-app-pool
+      maximum-pool-size: 10
+      minimum-idle: 2
+      auto-commit: false
+      connection-timeout: 10000
+      idle-timeout: 60000
+      max-lifetime: 1800000
+  jpa:
+    hibernate:
+      ddl-auto: none
+    show-sql: true
+    properties:
+      hibernate:
+        default_schema: hub_manager
+
+  flyway:
+    locations: classpath:db/migration
+    baseline-on-migrate: true
+    schemas: hub_manager
+    validate-on-migrate: ${SPRING_FLYWAY_VALIDATE_ON_MIGRATE:false}
