@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/api/payment-link")
+@RequestMapping("/api/payment-links")
 public class PaymentLinkController {
 
     private final PaymentLinkInPort paymentLinkInPort;
@@ -26,7 +26,7 @@ public class PaymentLinkController {
     public ResponseEntity<List<PaymentLinkResponse>> findAll(){
         var response = paymentLinkInPort.findAll()
                 .stream()
-                .map(PaymentLinkMapper::toResponse)
+                .map(PaymentLinkMapper::fromModel)
                 .toList();
 
         return ResponseEntity.ok(response);
@@ -35,35 +35,35 @@ public class PaymentLinkController {
     @GetMapping("/{id}")
     public ResponseEntity<PaymentLinkResponse> findById(@PathVariable UUID id){
         return paymentLinkInPort.findById(id)
-                .map(PaymentLinkMapper::toResponse)
+                .map(PaymentLinkMapper::fromModel)
                 .map(ResponseEntity::ok)
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
     @PostMapping
-    public ResponseEntity<PaymentLinkResponse> create( /*@Valid*/ @RequestBody PaymentLinkRequest paymentLinkRequest){
+    public ResponseEntity<PaymentLinkResponse> create(@RequestBody PaymentLinkRequest paymentLinkRequest){
         var entity = paymentLinkInPort.create(
-                PaymentLinkMapper.toEntity(paymentLinkRequest)
+                PaymentLinkMapper.toModel(paymentLinkRequest)
         );
 
-        var response = PaymentLinkMapper.toResponse(entity);
+        var response = PaymentLinkMapper.fromModel(entity);
 
         URI location = URI.create("/api/payment-links/" + entity.getId());
 
         return ResponseEntity.created(location).body(response);
     }
 
-    @PatchMapping("/disabled/{id}")
-    public ResponseEntity<PaymentLinkResponse> disabled(@PathVariable UUID id){
-        var entity = paymentLinkInPort.disable(id);
-        return ResponseEntity.ok(PaymentLinkMapper.toResponse(entity));
-    }
-
     @PutMapping("/{id}")
     public ResponseEntity<PaymentLinkResponse> update(@PathVariable UUID id,
-                                                      /*@Valid*/ @RequestBody PaymentLinkRequest paymentLinkRequest){
-        var entity = paymentLinkInPort.update(id, PaymentLinkMapper.toEntity(paymentLinkRequest));
-        return ResponseEntity.ok(PaymentLinkMapper.toResponse(entity));
+            /*@Valid*/ @RequestBody PaymentLinkRequest paymentLinkRequest){
+        var entity = paymentLinkInPort.update(id, PaymentLinkMapper.toModel(paymentLinkRequest));
+        return ResponseEntity.ok(PaymentLinkMapper.fromModel(entity));
+    }
+
+    @PatchMapping("/{id}/disable")
+    public ResponseEntity<PaymentLinkResponse> disabled(@PathVariable UUID id){
+        var entity = paymentLinkInPort.disable(id);
+        return ResponseEntity.ok(PaymentLinkMapper.fromModel(entity));
     }
 
     @DeleteMapping("/{id}")

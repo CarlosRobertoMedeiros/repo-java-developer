@@ -10,7 +10,8 @@ services:
       POSTGRES_USER: hub_manager_app
       POSTGRES_PASSWORD: 123456
     volumes:
-      - postgres_hub_manager_data:/var/lib/postgresql/data
+#      - postgres_hub_manager_data:/var/lib/postgresql/data
+      - ./data/postgres:/var/lib/postgresql/data
     networks:
       - stack-network
     healthcheck:
@@ -23,5 +24,5 @@ networks:
   stack-network:
     driver: bridge
 
-volumes:
-  postgres_hub_manager_data:
+#volumes:
+#  postgres_hub_manager_data:

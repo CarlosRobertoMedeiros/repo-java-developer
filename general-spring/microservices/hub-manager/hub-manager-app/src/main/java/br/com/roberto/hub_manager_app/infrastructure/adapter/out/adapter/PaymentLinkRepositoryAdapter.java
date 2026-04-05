@@ -2,11 +2,14 @@ package br.com.roberto.hub_manager_app.infrastructure.adapter.out.adapter;
 
 import br.com.roberto.hub_manager_app.application.ports.out.PaymentLinkOutPort;
 import br.com.roberto.hub_manager_app.domain.model.PaymentLinkModel;
+import br.com.roberto.hub_manager_app.domain.model.PaymentLinkStatus;
 import br.com.roberto.hub_manager_app.infrastructure.adapter.out.entity.PaymentLinkEntity;
-import br.com.roberto.hub_manager_app.infrastructure.adapter.out.mapper.PaymentLinkMapper;
+import br.com.roberto.hub_manager_app.infrastructure.adapter.out.mapper.PaymentLinkModelEntityMapper;
 import br.com.roberto.hub_manager_app.infrastructure.adapter.out.repository.PaymentLinkJpaRepository;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -15,9 +18,9 @@ import java.util.UUID;
 public class PaymentLinkRepositoryAdapter implements PaymentLinkOutPort {
 
     private final PaymentLinkJpaRepository repository;
-    private final PaymentLinkMapper mapper;
+    private final PaymentLinkModelEntityMapper mapper;
 
-    public PaymentLinkRepositoryAdapter(PaymentLinkMapper mapper, PaymentLinkJpaRepository repository) {
+    public PaymentLinkRepositoryAdapter(PaymentLinkModelEntityMapper mapper, PaymentLinkJpaRepository repository) {
         this.mapper = mapper;
         this.repository = repository;
     }
@@ -26,32 +29,34 @@ public class PaymentLinkRepositoryAdapter implements PaymentLinkOutPort {
     public List<PaymentLinkModel> findAll() {
         return repository.findAll()
                 .stream()
-                .map(mapper::toModel)
+                .map(mapper::EntitytoModel)
                 .toList();
     }
 
     @Override
     public Optional<PaymentLinkModel> findById(UUID id) {
         return repository.findById(id)
-                .map(mapper::toModel);
+                .map(mapper::EntitytoModel);
     }
 
     @Override
+    @Transactional
     public PaymentLinkModel save(PaymentLinkModel paymentLink) {
 
-        // Garante ID (caso venha nulo)
         if (paymentLink.getId() == null) {
-            paymentLink.setId(UUID.randomUUID());
+            paymentLink.setPaymentUrl("https://payment.link/".concat(UUID.randomUUID().toString()));
+        }else {
+            paymentLink.setUpdatedAt(LocalDateTime.now());
         }
+        var entity = mapper.ModeltoEntity(paymentLink);
+        var saved = repository.save(entity);
 
-        PaymentLinkEntity entity = mapper.toEntity(paymentLink);
 
-        PaymentLinkEntity saved = repository.save(entity);
-
-        return mapper.toModel(saved);
+        return mapper.EntitytoModel(saved);
     }
 
     @Override
+    @Transactional
     public void delete(UUID id) {
         if (!repository.existsById(id)) {
             throw new RuntimeException("PaymentLink não encontrado para exclusão");

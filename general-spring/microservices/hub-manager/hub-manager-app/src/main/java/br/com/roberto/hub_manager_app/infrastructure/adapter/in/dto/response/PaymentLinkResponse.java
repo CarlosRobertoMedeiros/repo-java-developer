@@ -11,5 +11,6 @@ public record PaymentLinkResponse(
         String paymentUrl,
         String status,
         LocalDateTime creationDate,
+        LocalDateTime updatedDate,
         LocalDateTime expirationDate
 ) {}

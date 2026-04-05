@@ -1,13 +1,8 @@
-management:
-  server:
-    port: 8081
-  endpoints:
-    web:
-      base-path: /manage
-      exposure:
-        include: health,metrics
-
 spring:
+  jackson:
+    data-format: yyyy-MM-dd'T'HH:mm:ss.SSS
+    serialization:
+      write-dates-as-timestamps: false
   datasource:
     driver-class-name: org.postgresql.Driver
     url: jdbc:postgresql://localhost:5432/db_hub_manager_app

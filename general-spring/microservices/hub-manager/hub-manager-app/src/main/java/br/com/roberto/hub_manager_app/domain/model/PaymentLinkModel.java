@@ -13,7 +13,7 @@ public class PaymentLinkModel {
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
     private String paymentUrl;
-    private String status;
+    private PaymentLinkStatus paymentLinkStatus;
     private Boolean isActive;
 
     public UUID getId() {
@@ -72,12 +72,12 @@ public class PaymentLinkModel {
         this.paymentUrl = paymentUrl;
     }
 
-    public String getStatus() {
-        return status;
+    public PaymentLinkStatus getStatus() {
+        return paymentLinkStatus;
     }
 
-    public void setStatus(String status) {
-        this.status = status;
+    public void setStatus(PaymentLinkStatus status) {
+        this.paymentLinkStatus = status;
     }
 
     public Boolean getActive() {
@@ -92,12 +92,12 @@ public class PaymentLinkModel {
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
         PaymentLinkModel that = (PaymentLinkModel) o;
-        return Objects.equals(id, that.id) && Objects.equals(description, that.description) && Objects.equals(amount, that.amount) && Objects.equals(expirationDate, that.expirationDate) && Objects.equals(createdAt, that.createdAt) && Objects.equals(updatedAt, that.updatedAt) && Objects.equals(paymentUrl, that.paymentUrl) && Objects.equals(status, that.status) && Objects.equals(isActive, that.isActive);
+        return Objects.equals(id, that.id) && Objects.equals(description, that.description) && Objects.equals(amount, that.amount) && Objects.equals(expirationDate, that.expirationDate) && Objects.equals(createdAt, that.createdAt) && Objects.equals(updatedAt, that.updatedAt) && Objects.equals(paymentUrl, that.paymentUrl) && Objects.equals(paymentLinkStatus, that.paymentLinkStatus) && Objects.equals(isActive, that.isActive);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, description, amount, expirationDate, createdAt, updatedAt, paymentUrl, status, isActive);
+        return Objects.hash(id, description, amount, expirationDate, createdAt, updatedAt, paymentUrl, paymentLinkStatus, isActive);
     }
 
     @Override
@@ -110,7 +110,7 @@ public class PaymentLinkModel {
                 ", createdAt=" + createdAt +
                 ", updatedAt=" + updatedAt +
                 ", paymentUrl='" + paymentUrl + '\'' +
-                ", status='" + status + '\'' +
+                ", paymentLinkStatus='" + paymentLinkStatus + '\'' +
                 ", isActive=" + isActive +
                 '}';
     }

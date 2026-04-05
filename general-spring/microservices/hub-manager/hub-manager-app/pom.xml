@@ -47,6 +47,11 @@
 		</dependency>
 
 		<dependency>
+			<groupId>com.fasterxml.jackson.datatype</groupId>
+			<artifactId>jackson-datatype-jsr310</artifactId>
+		</dependency>
+
+		<dependency>
 			<groupId>org.postgresql</groupId>
 			<artifactId>postgresql</artifactId>
 		</dependency>
@@ -83,13 +88,14 @@
 </project>
 
 <!--
+
 	1 - Ajustar o Docker com o banco de dados Postgres OK
 	2 - Inserir o Migration   OK
 	3 - Segregar o ambiente (Entorno)  OK
 	4 - Inserir o Actuator como Manager para verificar Health Check e Metricas OK
 		Ajustar a Criação desse EndPoint com a Versão do Sistema
 	5 - Inserir Hikari como pool de Conexao  OK
-	6 - Terminar o Crud
+	6 - Terminar o Crud (REALIZANDO PROVAS, CONTINUAR A PARTIR DAQUI)
 		Testar as funcionalidades
 		Colocar o Dominio como Record
 		Colocar Lombok apenas para Entity(VERIFICAR SE NECESSÁRIO)

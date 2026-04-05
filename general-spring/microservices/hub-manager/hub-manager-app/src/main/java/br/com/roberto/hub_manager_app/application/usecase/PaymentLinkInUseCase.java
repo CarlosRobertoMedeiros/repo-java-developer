@@ -1,8 +1,12 @@
 package br.com.roberto.hub_manager_app.application.usecase;
 
+import br.com.roberto.hub_manager_app.application.validator.PaymentLinkValidator;
+import br.com.roberto.hub_manager_app.domain.exceptions.PaymentLinkBusinessException;
+import br.com.roberto.hub_manager_app.domain.exceptions.PaymentLinkErrorCode;
 import br.com.roberto.hub_manager_app.domain.model.PaymentLinkModel;
 import br.com.roberto.hub_manager_app.application.ports.in.PaymentLinkInPort;
 import br.com.roberto.hub_manager_app.application.ports.out.PaymentLinkOutPort;
+import br.com.roberto.hub_manager_app.domain.model.PaymentLinkStatus;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -15,6 +19,7 @@ import java.util.UUID;
 public class PaymentLinkInUseCase implements PaymentLinkInPort {
 
     private final PaymentLinkOutPort paymentLinkOutPort;
+    private static final int EXPIRATION_PAYMENT_LINK_IN_TWO_DAYS = 2;
 
     public PaymentLinkInUseCase(PaymentLinkOutPort paymentLinkOutPort) {
         this.paymentLinkOutPort = paymentLinkOutPort;
@@ -33,23 +38,40 @@ public class PaymentLinkInUseCase implements PaymentLinkInPort {
 
     @Override
     public PaymentLinkModel create(PaymentLinkModel paymentLink) {
-        validatePaymentLink(paymentLink);
 
-        paymentLink.setId(UUID.randomUUID());
+        //Basic Data - Structural Validation
+        PaymentLinkValidator.validate(paymentLink);
+
+//        //Bussiness Rule Validator
+//        validateExpirationDate(paymentLink);
+
+        paymentLink.setStatus(PaymentLinkStatus.ACTIVE);
         paymentLink.setActive(true);
         paymentLink.setCreatedAt(LocalDateTime.now());
+        paymentLink.setExpirationDate(paymentLink.getCreatedAt().plusDays(EXPIRATION_PAYMENT_LINK_IN_TWO_DAYS));
 
-        return paymentLinkOutPort.save(paymentLink);
+        var saved = paymentLinkOutPort.save(paymentLink);
+
+        return saved;
     }
 
     @Override
     public PaymentLinkModel update(UUID id, PaymentLinkModel paymentLink) {
+
         validateId(id);
-        validatePaymentLink(paymentLink);
+        //Basic Data - Structural Validation
+        PaymentLinkValidator.validate(paymentLink);
 
-        PaymentLinkModel existing = getOrThrow(id, "atualização");
+        PaymentLinkModel existing = getOrThrow(id);
 
-        validateActive(existing);
+        validateUpdatable(existing);
+        validateExpirationDate(paymentLink);
+
+//        validatePaymentLink(paymentLink);
+//
+//        PaymentLinkModel existing = getOrThrow(id, "atualização");
+//
+//        validateActive(existing);
 
         existing.setDescription(paymentLink.getDescription());
         existing.setAmount(paymentLink.getAmount());
@@ -63,13 +85,16 @@ public class PaymentLinkInUseCase implements PaymentLinkInPort {
     public PaymentLinkModel disable(UUID id) {
         validateId(id);
 
-        PaymentLinkModel existing = getOrThrow(id, "desativação");
+        PaymentLinkModel existing = getOrThrow(id);
 
-        if (!Boolean.TRUE.equals(existing.getActive())) {
-            throw new IllegalStateException("PaymentLink já está desativado");
+        if (existing.getStatus() != PaymentLinkStatus.ACTIVE) {
+            throw new PaymentLinkBusinessException(
+                    PaymentLinkErrorCode.INVALID_STATUS_TRANSITION
+            );
         }
 
         existing.setActive(false);
+        existing.setStatus(PaymentLinkStatus.DISABLED);
         existing.setUpdatedAt(LocalDateTime.now());
 
         return paymentLinkOutPort.save(existing);
@@ -77,57 +102,56 @@ public class PaymentLinkInUseCase implements PaymentLinkInPort {
 
     @Override
     public void delete(UUID id) {
+
         validateId(id);
 
-        PaymentLinkModel existing = getOrThrow(id, "deleção");
+        PaymentLinkModel existing = getOrThrow(id);
 
         paymentLinkOutPort.delete(existing.getId());
     }
 
-    private PaymentLinkModel getOrThrow(UUID id, String contexto) {
+    private PaymentLinkModel getOrThrow(UUID id) {
         return paymentLinkOutPort.findById(id)
                 .orElseThrow(() ->
-                        new IllegalStateException(
-                                String.format("PaymentLink não encontrado para %s: %s", contexto, id)
+                        new PaymentLinkBusinessException(
+                                PaymentLinkErrorCode.PAYMENT_LINK_NOT_FOUND
                         )
                 );
     }
 
-    private void validateActive(PaymentLinkModel paymentLink) {
-        if (!Boolean.TRUE.equals(paymentLink.getActive())) {
-            throw new IllegalStateException("PaymentLink desativado não pode ser alterado");
-        }
-    }
-
     private void validateId(UUID id) {
         if (id == null) {
-            throw new IllegalArgumentException("ID não pode ser nulo");
+            throw new PaymentLinkBusinessException(
+                    PaymentLinkErrorCode.INVALID_ID
+            );
         }
     }
 
-    private void validatePaymentLink(PaymentLinkModel paymentLink) {
-        if (paymentLink == null) {
-            throw new IllegalArgumentException("PaymentLink não pode ser nulo");
+    private void validateUpdatable(PaymentLinkModel existing) {
+
+        if (!Boolean.TRUE.equals(existing.getActive())) {
+            throw new PaymentLinkBusinessException(
+                    PaymentLinkErrorCode.PAYMENT_LINK_INACTIVE
+            );
         }
 
-        validateAmount(paymentLink.getAmount());
-
-        if (paymentLink.getDescription() == null || paymentLink.getDescription().isBlank()) {
-            throw new IllegalArgumentException("Descrição é obrigatória");
+        if (existing.getStatus().equals(PaymentLinkStatus.EXPIRED)) {
+            throw new PaymentLinkBusinessException(
+                    PaymentLinkErrorCode.INVALID_STATUS_TRANSITION
+            );
         }
+    }
+
+    private void validateExpirationDate(PaymentLinkModel paymentLink) {
 
         if (paymentLink.getExpirationDate() == null) {
-            throw new IllegalArgumentException("Data de expiração é obrigatória");
+            return; // TODO: opcional ???
         }
 
         if (paymentLink.getExpirationDate().isBefore(LocalDateTime.now())) {
-            throw new IllegalArgumentException("Data de expiração não pode estar no passado");
-        }
-    }
-
-    private void validateAmount(BigDecimal amount) {
-        if (amount == null || amount.compareTo(BigDecimal.ZERO) <= 0) {
-            throw new IllegalArgumentException("Valor deve ser maior que zero");
+            throw new PaymentLinkBusinessException(
+                    PaymentLinkErrorCode.INVALID_EXPIRATION_DATE
+            );
         }
     }
 }

@@ -3,6 +3,15 @@ server:
   servlet:
     context-path: /hub-manager-app
 
+management:
+  server:
+    port: 8081
+  endpoints:
+    web:
+      base-path: /manage
+      exposure:
+        include: health,metrics
+
 spring:
   profiles:
     default: local

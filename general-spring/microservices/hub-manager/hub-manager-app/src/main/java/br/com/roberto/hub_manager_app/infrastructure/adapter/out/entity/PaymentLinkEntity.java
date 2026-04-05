@@ -1,5 +1,6 @@
 package br.com.roberto.hub_manager_app.infrastructure.adapter.out.entity;
 
+import br.com.roberto.hub_manager_app.domain.model.PaymentLinkStatus;
 import jakarta.persistence.*;
 
 import java.math.BigDecimal;
@@ -13,21 +14,41 @@ public class PaymentLinkEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
-
+    @Column(name = "description", nullable = false, length = 100)
     private String description;
+    @Column(name = "amount")
     private BigDecimal amount;
+    @Column(name = "expiration_date")
     private LocalDateTime expirationDate;
+    @Column(name = "created_at", nullable = false)
     private LocalDateTime createdAt;
+    @Column(name = "updated_at")
     private LocalDateTime updatedAt;
+    @Column(name = "payment_url", length = 255)
     private String paymentUrl;
-    private String status;
+    @Enumerated(EnumType.STRING)
+    @Column(columnDefinition = "status_type")
+    private PaymentLinkStatus paymentLinkStatus;
+    @Column(name = "is_active", nullable = false)
     private Boolean isActive;
 
+    // =========================================================
+    // CONSTRUCTORS
+    // =========================================================
 
     public PaymentLinkEntity() {
     }
 
-    public PaymentLinkEntity(UUID id, String description, BigDecimal amount, LocalDateTime expirationDate, LocalDateTime createdAt, LocalDateTime updatedAt, String paymentUrl, String status, Boolean isActive) {
+    public PaymentLinkEntity(UUID id,
+                             String description,
+                             BigDecimal amount,
+                             LocalDateTime expirationDate,
+                             LocalDateTime createdAt,
+                             LocalDateTime updatedAt,
+                             String paymentUrl,
+                             PaymentLinkStatus status,
+                             Boolean active) {
+
         this.id = id;
         this.description = description;
         this.amount = amount;
@@ -35,9 +56,11 @@ public class PaymentLinkEntity {
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
         this.paymentUrl = paymentUrl;
-        this.status = status;
-        this.isActive = isActive;
+        this.paymentLinkStatus = status;
+        this.isActive = active;
     }
+
+    // GETTERS AND SETTERS
 
     public UUID getId() {
         return id;
@@ -95,20 +118,20 @@ public class PaymentLinkEntity {
         this.paymentUrl = paymentUrl;
     }
 
-    public String getStatus() {
-        return status;
+    public PaymentLinkStatus getStatus() {
+        return paymentLinkStatus;
     }
 
-    public void setStatus(String status) {
-        this.status = status;
+    public void setStatus(PaymentLinkStatus paymentLinkStatus) {
+        this.paymentLinkStatus = paymentLinkStatus;
     }
 
     public Boolean getActive() {
         return isActive;
     }
 
-    public void setActive(Boolean active) {
-        isActive = active;
+    public void setActive(Boolean isActive) {
+        this.isActive = isActive;
     }
 }
 
