@@ -21,7 +21,7 @@ CREATE TABLE IF NOT EXISTS TB_PAYMENT_LINK (
 );
 
 -- CREATE INDEX
-CREATE INDEX idx_payment_link_status ON TB_PAYMENT_LINK(status);
+CREATE INDEX idx_payment_link_status ON TB_PAYMENT_LINK(payment_link_status);
 CREATE INDEX idx_payment_link_created_at ON TB_PAYMENT_LINK(created_at);
 
 -- CREATE COMMENTS
@@ -34,5 +34,5 @@ COMMENT ON COLUMN TB_PAYMENT_LINK.expiration_date IS 'Expiration date of the lin
 COMMENT ON COLUMN TB_PAYMENT_LINK.created_at IS 'Creation timestamp';
 COMMENT ON COLUMN TB_PAYMENT_LINK.updated_at IS 'Last update timestamp';
 COMMENT ON COLUMN TB_PAYMENT_LINK.payment_url IS 'Payment access URL';
-COMMENT ON COLUMN TB_PAYMENT_LINK.status IS 'Current status (EXPIRED, PENDING, ACTIVE, DISABLED)';
+COMMENT ON COLUMN TB_PAYMENT_LINK.payment_link_status IS 'Current status (EXPIRED, PENDING, ACTIVE, DISABLED)';
 COMMENT ON COLUMN TB_PAYMENT_LINK.is_active IS 'Indicates if the record is active';

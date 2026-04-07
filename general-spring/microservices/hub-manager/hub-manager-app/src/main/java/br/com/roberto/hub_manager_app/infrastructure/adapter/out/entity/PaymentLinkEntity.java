@@ -27,7 +27,8 @@ public class PaymentLinkEntity {
     @Column(name = "payment_url", length = 255)
     private String paymentUrl;
     @Enumerated(EnumType.STRING)
-    @Column(columnDefinition = "status_type")
+    @org.hibernate.annotations.JdbcTypeCode(org.hibernate.type.SqlTypes.NAMED_ENUM)
+    @Column(name = "payment_link_status", columnDefinition = "hub_manager.status_type")
     private PaymentLinkStatus paymentLinkStatus;
     @Column(name = "is_active", nullable = false)
     private Boolean isActive;

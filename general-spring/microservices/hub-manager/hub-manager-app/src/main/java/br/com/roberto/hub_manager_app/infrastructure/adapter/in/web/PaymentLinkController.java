@@ -1,13 +1,17 @@
 package br.com.roberto.hub_manager_app.infrastructure.adapter.in.web;
 
+import br.com.roberto.hub_manager_app.application.ports.in.PaymentLinkFilter;
 import br.com.roberto.hub_manager_app.application.ports.in.PaymentLinkInPort;
 import br.com.roberto.hub_manager_app.infrastructure.adapter.in.mapper.PaymentLinkMapper;
 import br.com.roberto.hub_manager_app.infrastructure.adapter.in.dto.request.PaymentLinkRequest;
 import br.com.roberto.hub_manager_app.infrastructure.adapter.in.dto.response.PaymentLinkResponse;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
@@ -22,15 +26,37 @@ public class PaymentLinkController {
     }
 
 
-    @GetMapping
-    public ResponseEntity<List<PaymentLinkResponse>> findAll(){
-        var response = paymentLinkInPort.findAll()
-                .stream()
-                .map(PaymentLinkMapper::fromModel)
-                .toList();
+//    @GetMapping
+//    public ResponseEntity<List<PaymentLinkResponse>> findAll(){
+//        var response = paymentLinkInPort.findAll()
+//                .stream()
+//                .map(PaymentLinkMapper::fromModel)
+//                .toList();
+//
+//        return ResponseEntity.ok(response);
+//    }
 
-        return ResponseEntity.ok(response);
+    @GetMapping
+    public ResponseEntity<Page<PaymentLinkResponse>> findAll(
+            @RequestParam(required = false) LocalDateTime createdAtFrom,
+            @RequestParam(required = false) LocalDateTime createdAtTo,
+            @RequestParam(required = false) Boolean isActive,
+            @RequestParam(required = false) String description,
+            Pageable pageable) {
+
+        var filter = new PaymentLinkFilter(
+                createdAtFrom,
+                createdAtTo,
+                isActive,
+                description
+        );
+
+        var page = paymentLinkInPort.findAll(pageable, filter)
+                .map(PaymentLinkMapper::fromModel);
+
+        return ResponseEntity.ok(page);
     }
+
 
     @GetMapping("/{id}")
     public ResponseEntity<PaymentLinkResponse> findById(@PathVariable UUID id){
@@ -54,8 +80,7 @@ public class PaymentLinkController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<PaymentLinkResponse> update(@PathVariable UUID id,
-            /*@Valid*/ @RequestBody PaymentLinkRequest paymentLinkRequest){
+    public ResponseEntity<PaymentLinkResponse> update(@PathVariable UUID id, @RequestBody PaymentLinkRequest paymentLinkRequest){
         var entity = paymentLinkInPort.update(id, PaymentLinkMapper.toModel(paymentLinkRequest));
         return ResponseEntity.ok(PaymentLinkMapper.fromModel(entity));
     }

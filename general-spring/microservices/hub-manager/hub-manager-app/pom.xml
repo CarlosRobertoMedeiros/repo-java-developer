@@ -95,7 +95,9 @@
 	4 - Inserir o Actuator como Manager para verificar Health Check e Metricas OK
 		Ajustar a Criação desse EndPoint com a Versão do Sistema
 	5 - Inserir Hikari como pool de Conexao  OK
-	6 - Terminar o Crud (REALIZANDO PROVAS, CONTINUAR A PARTIR DAQUI)
+	6 - Terminar o Crud  OK
+	7 - Alterar a busca por uma busca paginada
+	7 - Realizar as provas unitarias com o Crud
 		Testar as funcionalidades
 		Colocar o Dominio como Record
 		Colocar Lombok apenas para Entity(VERIFICAR SE NECESSÁRIO)

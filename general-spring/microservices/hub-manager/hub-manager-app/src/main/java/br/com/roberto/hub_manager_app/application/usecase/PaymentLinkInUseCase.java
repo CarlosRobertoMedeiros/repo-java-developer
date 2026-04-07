@@ -1,5 +1,6 @@
 package br.com.roberto.hub_manager_app.application.usecase;
 
+import br.com.roberto.hub_manager_app.application.ports.in.PaymentLinkFilter;
 import br.com.roberto.hub_manager_app.application.validator.PaymentLinkValidator;
 import br.com.roberto.hub_manager_app.domain.exceptions.PaymentLinkBusinessException;
 import br.com.roberto.hub_manager_app.domain.exceptions.PaymentLinkErrorCode;
@@ -7,6 +8,8 @@ import br.com.roberto.hub_manager_app.domain.model.PaymentLinkModel;
 import br.com.roberto.hub_manager_app.application.ports.in.PaymentLinkInPort;
 import br.com.roberto.hub_manager_app.application.ports.out.PaymentLinkOutPort;
 import br.com.roberto.hub_manager_app.domain.model.PaymentLinkStatus;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -25,9 +28,15 @@ public class PaymentLinkInUseCase implements PaymentLinkInPort {
         this.paymentLinkOutPort = paymentLinkOutPort;
     }
 
+//    @Override
+//    public List<PaymentLinkModel> findAll() {
+//        return paymentLinkOutPort.findAll();
+//    }
+
+
     @Override
-    public List<PaymentLinkModel> findAll() {
-        return paymentLinkOutPort.findAll();
+    public Page<PaymentLinkModel> findAll(Pageable pageable, PaymentLinkFilter filter) {
+        return paymentLinkOutPort.findAll(pageable, filter);
     }
 
     @Override
@@ -96,6 +105,7 @@ public class PaymentLinkInUseCase implements PaymentLinkInPort {
         existing.setActive(false);
         existing.setStatus(PaymentLinkStatus.DISABLED);
         existing.setUpdatedAt(LocalDateTime.now());
+        existing.setExpirationDate(LocalDateTime.now());
 
         return paymentLinkOutPort.save(existing);
     }

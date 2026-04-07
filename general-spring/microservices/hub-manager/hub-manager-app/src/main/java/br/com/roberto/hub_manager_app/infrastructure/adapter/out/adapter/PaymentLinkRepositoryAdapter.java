@@ -1,11 +1,16 @@
 package br.com.roberto.hub_manager_app.infrastructure.adapter.out.adapter;
 
+import br.com.roberto.hub_manager_app.application.ports.in.PaymentLinkFilter;
 import br.com.roberto.hub_manager_app.application.ports.out.PaymentLinkOutPort;
 import br.com.roberto.hub_manager_app.domain.model.PaymentLinkModel;
 import br.com.roberto.hub_manager_app.domain.model.PaymentLinkStatus;
+import br.com.roberto.hub_manager_app.infrastructure.adapter.in.mapper.PaymentLinkMapper;
 import br.com.roberto.hub_manager_app.infrastructure.adapter.out.entity.PaymentLinkEntity;
 import br.com.roberto.hub_manager_app.infrastructure.adapter.out.mapper.PaymentLinkModelEntityMapper;
 import br.com.roberto.hub_manager_app.infrastructure.adapter.out.repository.PaymentLinkJpaRepository;
+import br.com.roberto.hub_manager_app.infrastructure.adapter.out.specification.SpecificationBuilder;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -25,12 +30,24 @@ public class PaymentLinkRepositoryAdapter implements PaymentLinkOutPort {
         this.repository = repository;
     }
 
+//    @Override
+//    public List<PaymentLinkModel> findAll() {
+//        return repository.findAll()
+//                .stream()
+//                .map(mapper::EntitytoModel)
+//                .toList();
+//    }
+
     @Override
-    public List<PaymentLinkModel> findAll() {
-        return repository.findAll()
-                .stream()
-                .map(mapper::EntitytoModel)
-                .toList();
+    public Page<PaymentLinkModel> findAll(Pageable pageable, PaymentLinkFilter filter) {
+        var spec = SpecificationBuilder.<PaymentLinkEntity>builder()
+                .between("createdAt", filter.createdAtFrom(), filter.createdAtTo())
+                .equal("isActive", filter.isActive())
+                .likeIgnoreCase("description", filter.description())
+                .build();
+
+        return repository.findAll(spec, pageable)
+                .map(mapper::EntitytoModel);
     }
 
     @Override
