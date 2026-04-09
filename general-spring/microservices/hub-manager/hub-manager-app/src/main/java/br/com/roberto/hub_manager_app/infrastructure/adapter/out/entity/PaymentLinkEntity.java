@@ -2,36 +2,69 @@ package br.com.roberto.hub_manager_app.infrastructure.adapter.out.entity;
 
 import br.com.roberto.hub_manager_app.domain.model.PaymentLinkStatus;
 import jakarta.persistence.*;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
+/**
+ * JPA Entity for Payment Link persistence.
+ * Maps to TB_PAYMENT_LINK table in the database.
+ */
 @Entity
-@Table(name = "TB_PAYMENT_LINK")
+@Table(name = "TB_PAYMENT_LINK", indexes = {
+        @Index(name = "idx_payment_link_created_at", columnList = "created_at"),
+        @Index(name = "idx_payment_link_is_active", columnList = "is_active"),
+        @Index(name = "idx_payment_link_payment_url", columnList = "payment_url", unique = true)
+})
 public class PaymentLinkEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
+
     @Column(name = "description", nullable = false, length = 100)
     private String description;
+
     @Column(name = "amount")
     private BigDecimal amount;
+
     @Column(name = "expiration_date")
     private LocalDateTime expirationDate;
-    @Column(name = "created_at", nullable = false)
+
+    @CreationTimestamp
+    @Column(name = "created_at", nullable = false, updatable = false)
     private LocalDateTime createdAt;
+
+    @UpdateTimestamp
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
-    @Column(name = "payment_url", length = 255)
+
+    @Column(name = "payment_url", length = 255, unique = true)
     private String paymentUrl;
+
     @Enumerated(EnumType.STRING)
     @org.hibernate.annotations.JdbcTypeCode(org.hibernate.type.SqlTypes.NAMED_ENUM)
     @Column(name = "payment_link_status", columnDefinition = "hub_manager.status_type")
     private PaymentLinkStatus paymentLinkStatus;
+
     @Column(name = "is_active", nullable = false)
     private Boolean isActive;
+
+    @Version
+    @Column(name = "version")
+    private Long version;
+
+    @Column(name = "created_by", length = 100)
+    private String createdBy;
+
+    @Column(name = "updated_by", length = 100)
+    private String updatedBy;
+
+    @Column(name = "deleted_at")
+    private LocalDateTime deletedAt;
 
     // =========================================================
     // CONSTRUCTORS
@@ -134,6 +167,36 @@ public class PaymentLinkEntity {
     public void setActive(Boolean isActive) {
         this.isActive = isActive;
     }
+
+    public Long getVersion() {
+        return version;
+    }
+
+    public void setVersion(Long version) {
+        this.version = version;
+    }
+
+    public String getCreatedBy() {
+        return createdBy;
+    }
+
+    public void setCreatedBy(String createdBy) {
+        this.createdBy = createdBy;
+    }
+
+    public String getUpdatedBy() {
+        return updatedBy;
+    }
+
+    public void setUpdatedBy(String updatedBy) {
+        this.updatedBy = updatedBy;
+    }
+
+    public LocalDateTime getDeletedAt() {
+        return deletedAt;
+    }
+
+    public void setDeletedAt(LocalDateTime deletedAt) {
+        this.deletedAt = deletedAt;
+    }
 }
-
-
