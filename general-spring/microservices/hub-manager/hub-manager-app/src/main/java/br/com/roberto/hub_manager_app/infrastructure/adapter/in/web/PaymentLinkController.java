@@ -5,13 +5,6 @@ import br.com.roberto.hub_manager_app.application.ports.in.PaymentLinkInPort;
 import br.com.roberto.hub_manager_app.infrastructure.adapter.in.mapper.PaymentLinkMapper;
 import br.com.roberto.hub_manager_app.infrastructure.adapter.in.dto.request.PaymentLinkRequest;
 import br.com.roberto.hub_manager_app.infrastructure.adapter.in.dto.response.PaymentLinkResponse;
-import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.Parameter;
-import io.swagger.v3.oas.annotations.media.Content;
-import io.swagger.v3.oas.annotations.media.Schema;
-import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import io.swagger.v3.oas.annotations.responses.ApiResponses;
-import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -28,7 +21,6 @@ import java.util.UUID;
 @Validated
 @RestController
 @RequestMapping("/api/payment-links")
-@Tag(name = "Payment Links", description = "APIs for managing payment links")
 public class PaymentLinkController {
 
     private final PaymentLinkInPort paymentLinkInPort;
@@ -39,12 +31,6 @@ public class PaymentLinkController {
 
 
     @GetMapping
-    @Operation(summary = "List all payment links", description = "Retrieve a paginated list of payment links with optional filtering")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "List of payment links"),
-            @ApiResponse(responseCode = "400", description = "Invalid filter parameters"),
-            @ApiResponse(responseCode = "500", description = "Internal server error")
-    })
     public ResponseEntity<Page<PaymentLinkResponse>> findAll(
             @RequestParam(required = false) LocalDateTime createdAtFrom,
             @RequestParam(required = false) LocalDateTime createdAtTo,
@@ -71,14 +57,8 @@ public class PaymentLinkController {
 
 
     @GetMapping("/{id}")
-    @Operation(summary = "Get payment link by ID", description = "Retrieve a specific payment link by its UUID")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Payment link found"),
-            @ApiResponse(responseCode = "404", description = "Payment link not found"),
-            @ApiResponse(responseCode = "500", description = "Internal server error")
-    })
     public ResponseEntity<PaymentLinkResponse> findById(
-            @Parameter(description = "Payment link UUID") @PathVariable UUID id){
+            @PathVariable UUID id){
         log.debug("Fetching payment link with id: {}", id);
         return paymentLinkInPort.findById(id)
                 .map(PaymentLinkMapper::fromModel)
@@ -93,17 +73,7 @@ public class PaymentLinkController {
     }
 
     @PostMapping
-    @Operation(summary = "Create a new payment link", description = "Create a new payment link with the provided details")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "201", description = "Payment link created successfully"),
-            @ApiResponse(responseCode = "400", description = "Invalid request parameters"),
-            @ApiResponse(responseCode = "500", description = "Internal server error")
-    })
     public ResponseEntity<PaymentLinkResponse> create(
-            @io.swagger.v3.oas.annotations.parameters.RequestBody(
-                    description = "Payment link details",
-                    required = true
-            )
             @Valid @RequestBody PaymentLinkRequest paymentLinkRequest){
         log.info("Creating payment link with description: {}", paymentLinkRequest.description());
         var entity = paymentLinkInPort.create(
@@ -119,16 +89,8 @@ public class PaymentLinkController {
     }
 
     @PutMapping("/{id}")
-    @Operation(summary = "Update a payment link", description = "Update an existing payment link with new details")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Payment link updated successfully"),
-            @ApiResponse(responseCode = "400", description = "Invalid request parameters"),
-            @ApiResponse(responseCode = "404", description = "Payment link not found"),
-            @ApiResponse(responseCode = "422", description = "Payment link cannot be updated (inactive or expired)"),
-            @ApiResponse(responseCode = "500", description = "Internal server error")
-    })
     public ResponseEntity<PaymentLinkResponse> update(
-            @Parameter(description = "Payment link UUID") @PathVariable UUID id,
+            @PathVariable UUID id,
             @Valid @RequestBody PaymentLinkRequest paymentLinkRequest){
         log.info("Updating payment link with id: {}", id);
         var entity = paymentLinkInPort.update(id, PaymentLinkMapper.toModel(paymentLinkRequest));
@@ -137,15 +99,8 @@ public class PaymentLinkController {
     }
 
     @PatchMapping("/{id}/disable")
-    @Operation(summary = "Disable a payment link", description = "Disable an active payment link")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Payment link disabled successfully"),
-            @ApiResponse(responseCode = "404", description = "Payment link not found"),
-            @ApiResponse(responseCode = "422", description = "Payment link cannot be disabled (not active)"),
-            @ApiResponse(responseCode = "500", description = "Internal server error")
-    })
     public ResponseEntity<PaymentLinkResponse> disabled(
-            @Parameter(description = "Payment link UUID") @PathVariable UUID id){
+            @PathVariable UUID id){
         log.info("Disabling payment link with id: {}", id);
         var entity = paymentLinkInPort.disable(id);
         log.info("Payment link disabled successfully with id: {}", id);
@@ -153,14 +108,8 @@ public class PaymentLinkController {
     }
 
     @DeleteMapping("/{id}")
-    @Operation(summary = "Delete a payment link", description = "Delete an existing payment link")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "204", description = "Payment link deleted successfully"),
-            @ApiResponse(responseCode = "404", description = "Payment link not found"),
-            @ApiResponse(responseCode = "500", description = "Internal server error")
-    })
     public ResponseEntity<Void> delete(
-            @Parameter(description = "Payment link UUID") @PathVariable UUID id){
+            @PathVariable UUID id){
         log.info("Deleting payment link with id: {}", id);
         paymentLinkInPort.delete(id);
         log.info("Payment link deleted successfully with id: {}", id);
