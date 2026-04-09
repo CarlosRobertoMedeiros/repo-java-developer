@@ -15,11 +15,14 @@ cd general-spring/microservices/hub-manager
 ## Commands
 
 ```bash
-# Build
-mvn clean package -DskipTests
+# Build & compile
+mvn clean package
 
-# Test
+# Test (unit tests solo)
 mvn clean test
+
+# Test con smoke tests (requiere app corriendo)
+mvn test -DskipTests=false -pl hub-manager-smoke-tests
 
 # Run
 mvn spring-boot:run

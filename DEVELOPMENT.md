@@ -34,11 +34,11 @@ cd general-spring/microservices/hub-manager
 # Compilar
 mvn clean compile
 
-# Tests unitarios
+# Tests unitarios (hub-manager-app)
 mvn clean test
 
-# Smoke tests (requiere app corriendo)
-mvn clean test -pl hub-manager-smoke-tests
+# Smoke tests (opcional - requiere app corriendo)
+mvn test -DskipTests=false -pl hub-manager-smoke-tests
 
 # Build completo
 mvn clean package
@@ -46,6 +46,8 @@ mvn clean package
 # Run
 mvn spring-boot:run
 ```
+
+**Nota:** Los smoke tests están desactivados por defecto en el build. Para ejecutarlos, debes tener la app corriendo en otro terminal y usar el comando arriba.
 
 ### Puertos
 - **8041** - Aplicación (context: /hub-manager-app)
