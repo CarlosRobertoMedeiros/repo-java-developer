@@ -41,12 +41,10 @@ public class OpenApiConfig {
                 .servers(List.of(
                         new Server()
                                 .url("http://localhost:8041")
-                                .description("Local Development Server")
-                                .addExtension("x-environment", "local"),
+                                .description("Local Development Server"),
                         new Server()
                                 .url("http://localhost:8041")
                                 .description("Local API Server")
-                                .addExtension("x-environment", "local")
                 ));
     }
 }

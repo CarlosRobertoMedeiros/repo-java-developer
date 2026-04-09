@@ -8,8 +8,16 @@ ALTER TABLE TB_PAYMENT_LINK ADD COLUMN IF NOT EXISTS updated_by VARCHAR(100);
 -- Add soft delete field
 ALTER TABLE TB_PAYMENT_LINK ADD COLUMN IF NOT EXISTS deleted_at TIMESTAMP;
 
--- Add unique constraint on payment_url if not exists
-ALTER TABLE TB_PAYMENT_LINK ADD CONSTRAINT IF NOT EXISTS uk_payment_link_payment_url UNIQUE (payment_url);
+-- Add unique constraint on payment_url
+DO $$
+BEGIN
+  IF NOT EXISTS (
+    SELECT 1 FROM pg_constraint
+    WHERE conname = 'uk_payment_link_payment_url'
+  ) THEN
+    ALTER TABLE TB_PAYMENT_LINK ADD CONSTRAINT uk_payment_link_payment_url UNIQUE (payment_url);
+  END IF;
+END $$;
 
 -- Update existing records to have version 0 if null
 UPDATE TB_PAYMENT_LINK SET version = 0 WHERE version IS NULL;
