@@ -51,8 +51,47 @@
           <version>3.2.5</version>
         </plugin>
 
+        <!-- Spotless - Code Formatting and Import Organization -->
+        <plugin>
+          <groupId>com.diffplug.spotless</groupId>
+          <artifactId>spotless-maven-plugin</artifactId>
+          <version>2.43.0</version>
+          <configuration>
+            <java>
+              <googleJavaFormat>
+                <version>1.23.0</version>
+                <style>AOSP</style>
+              </googleJavaFormat>
+              <trimTrailingWhitespace/>
+              <endWithNewline/>
+              <importOrder>
+                <order>java,javax,org,com</order>
+              </importOrder>
+            </java>
+            <upToDateChecking>
+              <enabled>true</enabled>
+            </upToDateChecking>
+          </configuration>
+        </plugin>
+
       </plugins>
     </pluginManagement>
+
+    <!-- Enable Spotless in all builds -->
+    <plugins>
+      <plugin>
+        <groupId>com.diffplug.spotless</groupId>
+        <artifactId>spotless-maven-plugin</artifactId>
+        <executions>
+          <execution>
+            <goals>
+              <goal>check</goal>
+            </goals>
+            <phase>verify</phase>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
   </build>
 
 

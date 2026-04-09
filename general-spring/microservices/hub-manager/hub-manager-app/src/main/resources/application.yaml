@@ -10,7 +10,20 @@ management:
     web:
       base-path: /manage
       exposure:
-        include: health,metrics
+        include: health,metrics,info,env
+  endpoint:
+    health:
+      show-details: always
+    info:
+      enabled: true
+  info:
+    app:
+      name: Hub Manager Payment Link API
+      description: Microservice for managing payment links with hexagonal architecture
+      version: 1.0.0
+    java:
+      vendor: Amazon Corretto
+      version: 21
 
 spring:
   profiles:
