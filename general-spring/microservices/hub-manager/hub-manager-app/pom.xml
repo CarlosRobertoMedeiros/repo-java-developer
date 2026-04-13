@@ -19,6 +19,8 @@
 	<artifactId>hub-manager-app</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 
+
+
 	<dependencies>
 
 		<dependency>
@@ -29,6 +31,19 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
+		</dependency>
+
+		<!-- SpringDoc Swagger -->
+<!--		<dependency>-->
+<!--			<groupId>org.openapitools</groupId>-->
+<!--			<artifactId>jackson-databind-nullable</artifactId>-->
+<!--			<version>0.2.6</version>-->
+<!--		</dependency>-->
+
+		<dependency>
+			<groupId>org.springdoc</groupId>
+			<artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
+			<version>2.5.0</version>
 		</dependency>
 
 		<dependency>
@@ -76,11 +91,44 @@
 		</dependency>
 	</dependencies>
 
+
+
+
 	<build>
 		<plugins>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
+			</plugin>
+
+			<plugin>
+				<groupId>org.openapitools</groupId>
+				<artifactId>openapi-generator-maven-plugin</artifactId>
+				<version>7.5.0</version>
+				<executions>
+					<execution>
+						<goals>
+							<goal>generate</goal>
+						</goals>
+						<configuration>
+							<inputSpec>${project.basedir}/src/main/resources/docs/openapi.yml</inputSpec>
+							<generatorName>spring</generatorName>
+							<apiPackage>br.com.roberto.api</apiPackage>
+							<modelPackage>br.com.roberto.model</modelPackage>
+							<configOptions>
+								<useSpringBoot3>true</useSpringBoot3>
+								<dateLibrary>java8</dateLibrary>
+
+								<!-- ESSENCIAL -->
+								<openApiNullable>false</openApiNullable>
+
+								<!-- opcionais -->
+								<interfaceOnly>true</interfaceOnly>
+								<useTags>true</useTags>
+							</configOptions>
+						</configuration>
+					</execution>
+				</executions>
 			</plugin>
 		</plugins>
 	</build>
@@ -96,7 +144,8 @@
 		Ajustar a Criação desse EndPoint com a Versão do Sistema
 	5 - Inserir Hikari como pool de Conexao  OK
 	6 - Terminar o Crud  OK
-	7 - Alterar a busca por uma busca paginada
+	7 - Alterar a busca por uma busca paginada  OK
+	7 - Colocar o Swagger (FAZENDO, Falta garantir os testes)
 	7 - Realizar as provas unitarias com o Crud
 		Testar as funcionalidades
 		Colocar o Dominio como Record

@@ -1,6 +1,6 @@
-package br.com.roberto.hub_manager_app.infrastructure.adapter.out.repository;
+package br.com.roberto.hub_manager_app.infrastructure.persistence.repository;
 
-import br.com.roberto.hub_manager_app.infrastructure.adapter.out.entity.PaymentLinkEntity;
+import br.com.roberto.hub_manager_app.infrastructure.persistence.entity.PaymentLinkEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 

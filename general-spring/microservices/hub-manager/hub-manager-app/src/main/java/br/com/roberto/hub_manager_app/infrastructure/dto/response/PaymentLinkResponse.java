@@ -1,4 +1,4 @@
-package br.com.roberto.hub_manager_app.infrastructure.adapter.in.dto.response;
+package br.com.roberto.hub_manager_app.infrastructure.dto.response;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;

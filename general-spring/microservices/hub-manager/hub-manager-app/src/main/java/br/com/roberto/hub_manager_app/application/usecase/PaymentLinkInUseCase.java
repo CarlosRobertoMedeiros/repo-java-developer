@@ -1,20 +1,18 @@
 package br.com.roberto.hub_manager_app.application.usecase;
 
-import br.com.roberto.hub_manager_app.application.ports.in.PaymentLinkFilter;
+import br.com.roberto.hub_manager_app.domain.ports.in.PaymentLinkFilter;
 import br.com.roberto.hub_manager_app.application.validator.PaymentLinkValidator;
 import br.com.roberto.hub_manager_app.domain.exceptions.PaymentLinkBusinessException;
 import br.com.roberto.hub_manager_app.domain.exceptions.PaymentLinkErrorCode;
 import br.com.roberto.hub_manager_app.domain.model.PaymentLinkModel;
-import br.com.roberto.hub_manager_app.application.ports.in.PaymentLinkInPort;
-import br.com.roberto.hub_manager_app.application.ports.out.PaymentLinkOutPort;
+import br.com.roberto.hub_manager_app.domain.ports.in.PaymentLinkInPort;
+import br.com.roberto.hub_manager_app.domain.ports.out.PaymentLinkOutPort;
 import br.com.roberto.hub_manager_app.domain.model.PaymentLinkStatus;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -27,12 +25,6 @@ public class PaymentLinkInUseCase implements PaymentLinkInPort {
     public PaymentLinkInUseCase(PaymentLinkOutPort paymentLinkOutPort) {
         this.paymentLinkOutPort = paymentLinkOutPort;
     }
-
-//    @Override
-//    public List<PaymentLinkModel> findAll() {
-//        return paymentLinkOutPort.findAll();
-//    }
-
 
     @Override
     public Page<PaymentLinkModel> findAll(Pageable pageable, PaymentLinkFilter filter) {
@@ -75,12 +67,6 @@ public class PaymentLinkInUseCase implements PaymentLinkInPort {
 
         validateUpdatable(existing);
         validateExpirationDate(paymentLink);
-
-//        validatePaymentLink(paymentLink);
-//
-//        PaymentLinkModel existing = getOrThrow(id, "atualização");
-//
-//        validateActive(existing);
 
         existing.setDescription(paymentLink.getDescription());
         existing.setAmount(paymentLink.getAmount());

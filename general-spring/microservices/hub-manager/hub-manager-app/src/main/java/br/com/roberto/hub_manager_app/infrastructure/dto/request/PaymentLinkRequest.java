@@ -1,4 +1,4 @@
-package br.com.roberto.hub_manager_app.infrastructure.adapter.in.dto.request;
+package br.com.roberto.hub_manager_app.infrastructure.dto.request;
 
 import java.math.BigDecimal;
 

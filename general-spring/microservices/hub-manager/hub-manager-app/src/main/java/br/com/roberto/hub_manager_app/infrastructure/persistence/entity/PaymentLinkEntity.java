@@ -1,4 +1,4 @@
-package br.com.roberto.hub_manager_app.infrastructure.adapter.out.entity;
+package br.com.roberto.hub_manager_app.infrastructure.persistence.entity;
 
 import br.com.roberto.hub_manager_app.domain.model.PaymentLinkStatus;
 import jakarta.persistence.*;

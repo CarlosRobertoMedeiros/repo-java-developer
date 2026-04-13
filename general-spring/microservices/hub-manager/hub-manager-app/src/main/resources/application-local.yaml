@@ -30,3 +30,9 @@ spring:
     baseline-on-migrate: true
     schemas: hub_manager
     validate-on-migrate: ${SPRING_FLYWAY_VALIDATE_ON_MIGRATE:false}
+
+  springdoc:
+    api-docs:
+      enabled: true
+    swagger-ui:
+      enabled: true

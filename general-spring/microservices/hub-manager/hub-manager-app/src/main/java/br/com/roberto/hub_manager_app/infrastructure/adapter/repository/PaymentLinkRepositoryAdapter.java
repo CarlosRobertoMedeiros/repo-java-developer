@@ -1,21 +1,18 @@
-package br.com.roberto.hub_manager_app.infrastructure.adapter.out.adapter;
+package br.com.roberto.hub_manager_app.infrastructure.adapter.repository;
 
-import br.com.roberto.hub_manager_app.application.ports.in.PaymentLinkFilter;
-import br.com.roberto.hub_manager_app.application.ports.out.PaymentLinkOutPort;
+import br.com.roberto.hub_manager_app.domain.ports.in.PaymentLinkFilter;
+import br.com.roberto.hub_manager_app.domain.ports.out.PaymentLinkOutPort;
 import br.com.roberto.hub_manager_app.domain.model.PaymentLinkModel;
-import br.com.roberto.hub_manager_app.domain.model.PaymentLinkStatus;
-import br.com.roberto.hub_manager_app.infrastructure.adapter.in.mapper.PaymentLinkMapper;
-import br.com.roberto.hub_manager_app.infrastructure.adapter.out.entity.PaymentLinkEntity;
-import br.com.roberto.hub_manager_app.infrastructure.adapter.out.mapper.PaymentLinkModelEntityMapper;
-import br.com.roberto.hub_manager_app.infrastructure.adapter.out.repository.PaymentLinkJpaRepository;
-import br.com.roberto.hub_manager_app.infrastructure.adapter.out.specification.SpecificationBuilder;
+import br.com.roberto.hub_manager_app.infrastructure.persistence.entity.PaymentLinkEntity;
+import br.com.roberto.hub_manager_app.infrastructure.adapter.mapper.PaymentLinkModelEntityMapper;
+import br.com.roberto.hub_manager_app.infrastructure.persistence.repository.PaymentLinkJpaRepository;
+import br.com.roberto.hub_manager_app.infrastructure.persistence.specification.SpecificationBuilder;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
-import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -30,30 +27,22 @@ public class PaymentLinkRepositoryAdapter implements PaymentLinkOutPort {
         this.repository = repository;
     }
 
-//    @Override
-//    public List<PaymentLinkModel> findAll() {
-//        return repository.findAll()
-//                .stream()
-//                .map(mapper::EntitytoModel)
-//                .toList();
-//    }
-
     @Override
     public Page<PaymentLinkModel> findAll(Pageable pageable, PaymentLinkFilter filter) {
         var spec = SpecificationBuilder.<PaymentLinkEntity>builder()
-                .between("createdAt", filter.createdAtFrom(), filter.createdAtTo())
+                .between("createdAt", filter.createdAtTo(), filter.createdAtFrom())
                 .equal("isActive", filter.isActive())
                 .likeIgnoreCase("description", filter.description())
                 .build();
 
         return repository.findAll(spec, pageable)
-                .map(mapper::EntitytoModel);
+                .map(mapper::toDomain);
     }
 
     @Override
     public Optional<PaymentLinkModel> findById(UUID id) {
         return repository.findById(id)
-                .map(mapper::EntitytoModel);
+                .map(mapper::toDomain);
     }
 
     @Override
@@ -65,11 +54,11 @@ public class PaymentLinkRepositoryAdapter implements PaymentLinkOutPort {
         }else {
             paymentLink.setUpdatedAt(LocalDateTime.now());
         }
-        var entity = mapper.ModeltoEntity(paymentLink);
+        var entity = mapper.toEntity(paymentLink);
         var saved = repository.save(entity);
 
 
-        return mapper.EntitytoModel(saved);
+        return mapper.toDomain(saved);
     }
 
     @Override

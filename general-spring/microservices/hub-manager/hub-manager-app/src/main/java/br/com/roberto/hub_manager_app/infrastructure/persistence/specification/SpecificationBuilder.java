@@ -1,4 +1,4 @@
-package br.com.roberto.hub_manager_app.infrastructure.adapter.out.specification;
+package br.com.roberto.hub_manager_app.infrastructure.persistence.specification;
 
 import org.springframework.data.jpa.domain.Specification;
 

@@ -1,0 +1,365 @@
+openapi: 3.0.1
+info:
+  title: Payment Links API
+  description: API para gerenciamento de Payment Links
+  version: 1.0.0
+
+servers:
+  - url: http://localhost:8080/api/v1
+    description: Ambiente local
+
+tags:
+  - name: Payment Links
+    description: Operações relacionadas a Payment Links
+
+paths:
+
+  /payment-links:
+    get:
+      tags:
+        - Payment Links
+      summary: Listar Payment Links
+      description: Retorna uma lista paginada de Payment Links com filtros opcionais
+      operationId: findAllPaymentLinks
+
+      parameters:
+        - $ref: '#/components/parameters/CorrelationId'
+        - $ref: '#/components/parameters/Page'
+        - $ref: '#/components/parameters/Size'
+        - $ref: '#/components/parameters/Sort'
+
+        - name: createdAtFrom
+          in: query
+          description: Data inicial de criação
+          schema:
+            type: string
+            format: date-time
+            example: 2026-04-01T00:00:00
+
+        - name: createdAtTo
+          in: query
+          description: Data final de criação
+          schema:
+            type: string
+            format: date-time
+            example: 2026-04-10T23:59:59
+
+        - name: isActive
+          in: query
+          description: Indica se o link está ativo
+          schema:
+            type: boolean
+            example: true
+
+        - name: description
+          in: query
+          description: Descrição do payment link
+          schema:
+            type: string
+            example: pagamento produto
+
+      responses:
+        '200':
+          description: Lista retornada com sucesso
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PagedPaymentLinkResponse'
+
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '500':
+          $ref: '#/components/responses/InternalError'
+
+      security:
+        - bearerAuth: []
+
+    post:
+      tags:
+        - Payment Links
+      summary: Criar Payment Link
+      operationId: createPaymentLink
+
+      parameters:
+        - $ref: '#/components/parameters/CorrelationId'
+
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PaymentLinkRequest'
+
+      responses:
+        '201':
+          description: Payment Link criado com sucesso
+          headers:
+            Location:
+              description: URL do recurso criado
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaymentLinkResponse'
+
+        '400':
+          $ref: '#/components/responses/BadRequest'
+
+      security:
+        - bearerAuth: []
+
+  /payment-links/{id}:
+    get:
+      tags:
+        - Payment Links
+      summary: Buscar Payment Link por ID
+      operationId: findPaymentLinkById
+
+      parameters:
+        - $ref: '#/components/parameters/CorrelationId'
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+
+      responses:
+        '200':
+          description: Payment Link encontrado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaymentLinkResponse'
+
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+      security:
+        - bearerAuth: []
+
+    put:
+      tags:
+        - Payment Links
+      summary: Atualizar Payment Link
+      operationId: updatePaymentLink
+
+      parameters:
+        - $ref: '#/components/parameters/CorrelationId'
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PaymentLinkRequest'
+
+      responses:
+        '200':
+          description: Atualizado com sucesso
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaymentLinkResponse'
+
+      security:
+        - bearerAuth: []
+
+    delete:
+      tags:
+        - Payment Links
+      summary: Deletar Payment Link
+      operationId: deletePaymentLink
+
+      parameters:
+        - $ref: '#/components/parameters/CorrelationId'
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+
+      responses:
+        '204':
+          description: Deletado com sucesso
+
+      security:
+        - bearerAuth: []
+
+  /payment-links/{id}/disable:
+    patch:
+      tags:
+        - Payment Links
+      summary: Desativar Payment Link
+      operationId: disablePaymentLink
+
+      parameters:
+        - $ref: '#/components/parameters/CorrelationId'
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+
+      responses:
+        '200':
+          description: Desativado com sucesso
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaymentLinkResponse'
+
+      security:
+        - bearerAuth: []
+
+components:
+
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+  parameters:
+    CorrelationId:
+      name: X-Correlation-Id
+      in: header
+      required: false
+      schema:
+        type: string
+        example: abc-123
+
+    Page:
+      name: page
+      in: query
+      schema:
+        type: integer
+        example: 0
+
+    Size:
+      name: size
+      in: query
+      schema:
+        type: integer
+        example: 10
+
+    Sort:
+      name: sort
+      in: query
+      schema:
+        type: string
+        example: createdAt,desc
+
+  schemas:
+
+    PaymentLinkRequest:
+      type: object
+      required:
+        - description
+        - amount
+      properties:
+        description:
+          type: string
+          example: Pagamento produto X
+        amount:
+          type: number
+          format: double
+          example: 150.50
+        expirationDate:
+          type: string
+          format: date-time
+          example: 2026-04-20T10:00:00
+
+    PaymentLinkResponse:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        description:
+          type: string
+        amount:
+          type: number
+        isActive:
+          type: boolean
+        createdAt:
+          type: string
+          format: date-time
+        expirationDate:
+          type: string
+          format: date-time
+        paymentUrl:
+          type: string
+
+    PagedPaymentLinkResponse:
+      type: object
+      properties:
+        content:
+          type: array
+          items:
+            $ref: '#/components/schemas/PaymentLinkResponse'
+        page:
+          type: integer
+        size:
+          type: integer
+        totalElements:
+          type: integer
+        totalPages:
+          type: integer
+
+    ErrorResponse:
+      type: object
+      properties:
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/Error'
+
+    Error:
+      type: object
+      properties:
+        code:
+          type: string
+          example: PL-001
+        title:
+          type: string
+          example: Invalid request
+        detail:
+          type: string
+        timestamp:
+          type: string
+          format: date-time
+        correlationId:
+          type: string
+
+  responses:
+    BadRequest:
+      description: Requisição inválida
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+
+    Unauthorized:
+      description: Não autorizado
+
+    NotFound:
+      description: Recurso não encontrado
+
+    InternalError:
+      description: Erro interno do servidor
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
