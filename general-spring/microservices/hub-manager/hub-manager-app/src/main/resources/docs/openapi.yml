@@ -1,7 +1,7 @@
 openapi: 3.0.1
 info:
   title: Payment Links API
-  description: API para gerenciamento de Payment Links
+  description: API for Payment Links management
   version: 1.0.0
 
 servers:
@@ -10,11 +10,50 @@ servers:
 
 tags:
   - name: Payment Links
-    description: Operações relacionadas a Payment Links
+    description: Operations related to Payment Links
 
 paths:
 
   /payment-links:
+
+    post:
+      tags:
+        - Payment Links
+      summary: Create Payment Link
+      operationId: createPaymentLink
+
+      parameters:
+        - $ref: '#/components/parameters/CorrelationId'
+
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PaymentLinkRequest'
+
+      responses:
+        '201':
+          description: Payment Link criado com sucesso
+          headers:
+            Location:
+              description: URL do recurso criado
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaymentLinkResponse'
+
+        '400':
+          $ref: '#/components/responses/BadRequest'
+
+      security:
+        - bearerAuth: []
+
+
+
+
     get:
       tags:
         - Payment Links
@@ -76,40 +115,7 @@ paths:
       security:
         - bearerAuth: []
 
-    post:
-      tags:
-        - Payment Links
-      summary: Criar Payment Link
-      operationId: createPaymentLink
 
-      parameters:
-        - $ref: '#/components/parameters/CorrelationId'
-
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/PaymentLinkRequest'
-
-      responses:
-        '201':
-          description: Payment Link criado com sucesso
-          headers:
-            Location:
-              description: URL do recurso criado
-              schema:
-                type: string
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/PaymentLinkResponse'
-
-        '400':
-          $ref: '#/components/responses/BadRequest'
-
-      security:
-        - bearerAuth: []
 
   /payment-links/{id}:
     get:
@@ -238,7 +244,8 @@ components:
       required: false
       schema:
         type: string
-        example: abc-123
+        format: uuid
+        example: 123e4567-e89b-12d3-a456-426614174000
 
     Page:
       name: page
@@ -276,10 +283,6 @@ components:
           type: number
           format: double
           example: 150.50
-        expirationDate:
-          type: string
-          format: date-time
-          example: 2026-04-20T10:00:00
 
     PaymentLinkResponse:
       type: object
@@ -294,6 +297,9 @@ components:
         isActive:
           type: boolean
         createdAt:
+          type: string
+          format: date-time
+        updateAt:
           type: string
           format: date-time
         expirationDate:
